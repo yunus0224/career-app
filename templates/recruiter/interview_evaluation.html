@@ -1,0 +1,244 @@
+{% extends 'recruiter/base.html' %}
+
+{% block title %}
+Interview Evaluation
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="mb-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+    <div>
+
+        <h1 class="text-5xl font-bold text-[#0F172A] mb-3">
+
+            Interview Evaluation
+
+        </h1>
+
+        <p class="text-gray-500 text-lg">
+
+            Record interview results and recruiter recommendations
+
+        </p>
+
+    </div>
+
+    <a href="/recruiter/application/{{ application.id }}/"
+       class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-4 rounded-2xl font-semibold transition">
+
+        ← Back Candidate
+
+    </a>
+
+</div>
+
+<!-- CANDIDATE INFO -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8 mb-10">
+
+    <div class="flex items-center gap-6">
+
+        <div class="w-24 h-24 rounded-3xl bg-orange-100 flex items-center justify-center text-orange-600 font-bold text-4xl">
+
+            {{ application.candidate.first_name|first }}
+            {{ application.candidate.last_name|first }}
+
+        </div>
+
+        <div>
+
+            <h2 class="text-3xl font-bold text-[#0F172A]">
+
+                {{ application.candidate.first_name }}
+                {{ application.candidate.last_name }}
+
+            </h2>
+
+            <p class="text-gray-500 text-lg mt-1">
+
+                {{ application.position.title }}
+
+            </p>
+
+            <div class="flex flex-wrap gap-3 mt-4">
+
+                <span class="bg-orange-100 text-orange-600 px-4 py-2 rounded-xl text-sm font-semibold">
+
+                    Interview Evaluation
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- INTERVIEW SUMMARY -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8 mb-10">
+
+    <h3 class="text-2xl font-bold mb-6">
+
+        Interview Summary
+
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Assigned Journal
+
+            </p>
+
+            <h4 class="font-semibold text-lg">
+
+                {{ application.assigned_journal|default:'-' }}
+
+            </h4>
+
+        </div>
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Assigned Interviewer
+
+            </p>
+
+            <h4 class="font-semibold text-lg">
+
+                {{ application.assigned_interviewer|default:'-' }}
+
+            </h4>
+
+        </div>
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Interview Schedule
+
+            </p>
+
+            <h4 class="font-semibold text-lg">
+
+                {{ application.interview_date|default:'-' }}
+
+                {% if application.interview_time %}
+                - {{ application.interview_time }}
+                {% endif %}
+
+            </h4>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- EVALUATION FORM -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-10">
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="bg-orange-50 border border-orange-100 rounded-3xl p-6 mb-8">
+
+            <div class="flex items-center gap-4">
+
+                <div class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center text-2xl">
+
+                    🎤
+
+                </div>
+
+                <div>
+
+                    <h3 class="font-bold text-xl text-[#0F172A]">
+
+                        Interview Assessment
+
+                    </h3>
+
+                    <p class="text-gray-500">
+
+                        Record strengths, weaknesses, communication skills, OJS knowledge,
+                        publication experience, and final recommendation.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="mb-8">
+
+            <label class="block text-lg font-semibold text-[#0F172A] mb-3">
+
+                Interview Notes
+
+            </label>
+
+            {{ form.interview_notes }}
+
+        </div>
+
+        <div class="bg-gray-50 rounded-2xl p-5 mb-8">
+
+            <h4 class="font-semibold mb-3">
+
+                Recommended Structure
+
+            </h4>
+
+            <ul class="text-gray-600 text-sm space-y-2">
+
+                <li>✅ Communication Skills</li>
+                <li>✅ OJS Experience</li>
+                <li>✅ Journal Management Knowledge</li>
+                <li>✅ Publication Experience</li>
+                <li>✅ Technical Skills</li>
+                <li>✅ Final Recommendation</li>
+
+            </ul>
+
+        </div>
+
+        <div class="flex gap-4">
+
+            <button type="submit"
+                    class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-semibold transition">
+
+                Save Evaluation
+
+            </button>
+
+            <a href="/recruiter/application/{{ application.id }}/"
+               class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-8 py-4 rounded-2xl font-semibold transition">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

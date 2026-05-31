@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    
+    <div class="flex items-center gap-4 mb-6">
+
+    <img
+        src="/media/logo/litera-logo.png"
+        alt="Litera Publishing"
+        class="h-16 object-contain"
+    >
+
+    <div>
+
+        <h2 class="text-2xl font-bold">
+
+            Litera Publishing
+
+        </h2>
+
+        <p class="text-blue-100">
+
+            Academic Talent Ecosystem
+
+        </p>
+
+    </div>
+
+</div>
+
+    <title>
+        Apply - {{ position.title }}
+    </title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+
+<body class="bg-gray-100 text-gray-800">
+    <nav
+    id="navbar"
+    class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 transition-all duration-300">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="flex items-center justify-between h-20">
+
+            <!-- LOGO -->
+
+            <a href="/"
+               class="flex items-center gap-4">
+
+                <img
+                    src="/media/logo/litera-logo.png"
+                    alt="Litera Publishing"
+                    class="h-12 object-contain">
+
+                <div>
+
+                    <h2 class="text-2xl font-bold text-[#163B9F]">
+
+                        Litera Publishing
+
+                    </h2>
+
+                    <p class="text-sm text-gray-500">
+
+                        Academic Talent Ecosystem
+
+                    </p>
+
+                </div>
+
+            </a>
+
+            <!-- MENU -->
+
+            <div class="hidden md:flex items-center gap-8">
+
+                <a href="/"
+                   class="font-medium text-gray-700 hover:text-[#163B9F]">
+
+                    Home
+
+                </a>
+
+                <a href="/#jobs"
+                   class="font-medium text-gray-700 hover:text-[#163B9F]">
+
+                    Open Positions
+
+                </a>
+
+                <a href="/login/"
+                   class="font-medium text-gray-700 hover:text-[#163B9F]">
+
+                    User Login
+
+                </a>
+
+                <a href="/admin/"
+                   class="bg-[#163B9F] text-white px-5 py-2 rounded-xl hover:bg-[#0D2E82]">
+
+                    Admin
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+    <!-- CONTAINER -->
+
+    <div class="max-w-5xl mx-auto pt-32 pb-20 px-6">
+
+        <!-- CARD -->
+
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+
+            <!-- HEADER -->
+
+            <div class="bg-gradient-to-r from-[#163B9F] to-[#214DBF] text-white p-12">
+
+                <div class="flex items-center justify-between flex-wrap gap-4">
+
+                    <div>
+
+                        <p class="uppercase tracking-widest text-sm text-gray-400 mb-3">
+                            Litera Career Hub
+                        </p>
+
+                        <h1 class="text-5xl font-bold mb-4">
+                            Apply for {{ position.title }}
+                        </h1>
+
+                        <p class="text-gray-300 text-lg">
+                            Join Litera Publishing recruitment ecosystem.
+                        </p>
+
+                    </div>
+
+                    <div class="flex gap-3 flex-wrap">
+
+                        <span class="bg-white text-[#163B9F] px-5 py-3 rounded-2xl font-semibold">
+
+                            {{ position.get_position_type_display }}
+
+                        </span>
+
+                        {% if position.recruitment_open %}
+
+                            <span class="bg-green-500 text-white px-5 py-3 rounded-2xl font-semibold">
+
+                                ● OPEN
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="bg-red-500 text-white px-5 py-3 rounded-2xl font-semibold">
+
+                                ● CLOSED
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="p-10 border-b bg-gray-50">
+
+                <h2 class="text-3xl font-bold mb-8">
+
+                    Position Information
+
+                </h2>
+
+                <div class="space-y-8">
+
+                    <div>
+
+                        <h3 class="font-bold text-[#163B9F] mb-3">
+
+                            Position Description
+
+                        </h3>
+
+                        <p class="text-gray-700 leading-relaxed text-justify">
+
+                            {{ position.description }}
+
+                        </p>
+
+                    </div>
+
+                    {% if position.requirements %}
+
+                    <div>
+
+                        <h3 class="font-bold text-[#163B9F] mb-3">
+
+                            Candidate Requirements
+
+                        </h3>
+
+                        <div class="bg-blue-50 border-l-4 border-[#163B9F] p-5 rounded-r-xl">
+
+                            {{ position.requirements|linebreaks }}
+
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+                    {% if position.fee_scheme %}
+
+                    <div>
+
+                        <h3 class="font-bold text-[#163B9F] mb-3">
+
+                            Compensation Scheme
+
+                        </h3>
+
+                        <div class="bg-green-50 border-l-4 border-green-600 p-5 rounded-r-xl">
+
+                            {{ position.fee_scheme }}
+
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- APPLICATION FORM HEADER -->
+
+            <div class="bg-[#163B9F] text-white px-10 py-8">
+
+                <h2 class="text-3xl font-bold">
+
+                    Application Form
+
+                </h2>
+
+                <p class="mt-2 text-blue-100">
+
+                    Complete the following information accurately before submitting your application.
+
+                </p>
+
+            </div>
+
+            <!-- FORM -->
+
+            <div class="p-12 bg-white">               
+
+                <form method="POST"
+                      enctype="multipart/form-data"
+                      class="space-y-10">
+
+                     
+
+                    {% csrf_token %}
+
+                    <!-- ACCOUNT INFORMATION -->
+
+                    <div>
+
+                        <h2 class="text-2xl font-bold mb-6 text-[#163B9F] border-b pb-3">
+                            Account Information
+                        </h2>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Username
+                                </label>
+
+                                {{ form.username }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Email Address
+                                </label>
+
+                                {{ form.email }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Password
+                                </label>
+
+                                {{ form.password }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Phone Number
+                                </label>
+
+                                {{ form.phone }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- PERSONAL INFORMATION -->
+
+                    <div>
+
+                        <h2 class="text-2xl font-bold mb-6 text-[#163B9F] border-b pb-3">
+                            Personal Information
+                        </h2>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    First Name
+                                </label>
+
+                                {{ form.first_name }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Last Name
+                                </label>
+
+                                {{ form.last_name }}
+                            </div>
+                            
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    City / Region
+                                </label>
+
+                                {{ form.city }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Gender
+                                </label>
+
+                                {{ form.gender }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Applicant Status
+                                </label>
+
+                                {{ form.status }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Institution / University
+                                </label>
+
+                                {{ form.institution }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Study Program
+                                </label>
+
+                                {{ form.study_program }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Occupation
+                                </label>
+
+                                {{ form.occupation }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- PROFESSIONAL INFORMATION -->
+
+                    <div>
+
+                        <h2 class="text-2xl font-bold mb-6 text-[#163B9F] border-b pb-3">
+                            Professional Information
+                        </h2>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    Scientific Field
+                                </label>
+
+                                {{ form.scientific_field }}
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">
+                                    OJS Skill Level
+                                </label>
+
+                                {{ form.ojs_skill }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- BIO -->
+
+                    <div>
+
+                        <label class="block font-semibold mb-2">
+                            Short Bio
+                        </label>
+
+                        <p class="text-sm text-gray-500 mb-3">
+                            Briefly describe your background, experience, interests, or professional goals.
+                        </p>
+
+                        {{ form.bio }}
+
+                    </div>
+
+                    <!-- JOURNAL MANAGER SECTION -->
+
+                    {% if position.slug == 'journal-manager' %}
+
+                    <div class="border-t pt-10">
+
+                        <h2 class="text-2xl font-bold mb-6 text-[#163B9F] border-b pb-3">
+                            Journal Management Experience
+                        </h2>
+
+                        <div class="space-y-6">
+
+                            <div>
+
+                                <label class="block font-semibold mb-2">
+                                    Journal Management Experience
+                                </label>
+
+                                <p class="text-sm text-gray-500 mb-3">
+                                    Describe your experience in managing scientific journals, editorial workflows, OJS platforms, reviewer coordination, or publication processes.
+                                </p>
+
+                                {{ form.experience }}
+
+                            </div>
+
+                            <div>
+
+                                <label class="block font-semibold mb-2">
+                                    Indexed / Accredited Journal Experience
+                                </label>
+
+                                <p class="text-sm text-gray-500 mb-3">
+                                    Mention accredited journals, indexed journals, or publication achievements you have previously managed or contributed to.
+                                </p>
+
+                                {{ form.indexed_journal }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endif %}
+
+                    <!-- SUPPORTING DOCUMENTS -->
+
+                    <div class="border-t pt-10">
+
+                        <h2 class="text-2xl font-bold mb-6 text-[#163B9F] border-b pb-3">
+                            Supporting Documents
+                        </h2>
+
+                        <div class="space-y-8">
+
+                            <!-- CV -->
+
+                            <div>
+
+                                <label class="block font-semibold mb-2">
+                                    Upload CV / Resume
+                                </label>
+
+                                <p class="text-sm text-gray-500 mb-3">
+                                    Your CV should include personal information, education, experiences, organizations, and relevant skills.
+                                </p>
+
+                                {{ form.cv }}
+
+                            </div>
+
+                            <!-- PORTFOLIO -->
+
+                            {% if position.slug == 'journal-manager' %}
+
+                            <div>
+
+                                <label class="block font-semibold mb-2">
+                                    Upload Portfolio (Optional)
+                                </label>
+
+                                <p class="text-sm text-gray-500 mb-3">
+                                    Portfolio may include journal layouts, OJS screenshots, certificates, publications, designs, or journal management experiences.
+                                </p>
+
+                                {{ form.portfolio }}
+
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <!-- SUBMIT -->
+
+                    <div class="pt-6">
+
+                        <button
+                            type="submit"
+                            class="w-full bg-[#163B9F] text-white py-5 rounded-2xl font-bold text-lg hover:bg-[#0D2E82] transition shadow-lg">
+
+                            Submit Application
+
+                        </button>
+
+                    </div>
+
+                </form>
+                
+
+            </div>
+
+        </div>
+
+    </div>   
+
+    <!-- FOOTER -->
+
+    <footer class="bg-[#163B9F] text-white py-14">
+
+    <div class="max-w-6xl mx-auto px-6 text-center">
+
+        <img src="/media/logo/litera-logo.png"
+             class="h-16 mx-auto mb-5">
+
+        <h2 class="text-3xl font-bold mb-3">
+            PT Litera Integra Nusantara
+        </h2>
+
+        <p class="text-blue-100 mb-2">
+            Sustainable Scientific Publication Ecosystem
+        </p>
+
+        <p class="text-blue-200 text-sm">
+            © 2026 Litera Publishing. All Rights Reserved.
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+
+</html>

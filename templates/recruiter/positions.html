@@ -1,0 +1,249 @@
+{% extends 'recruiter/base.html' %}
+
+{% block title %}
+Positions Management
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="mb-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+    <div>
+
+        <h1 class="text-5xl font-bold text-[#0F172A] mb-3">
+
+            Positions Management
+
+        </h1>
+
+        <p class="text-gray-500 text-lg">
+
+            Manage recruitment positions and vacancy publication
+
+        </p>
+
+    </div>
+
+    <a href="/recruiter/positions/create/"
+       class="bg-[#163B9F] hover:bg-[#0A2E8A] text-white px-7 py-4 rounded-2xl font-semibold transition shadow-md">
+
+        + Create Position
+
+    </a>
+
+</div>
+
+
+<!-- POSITIONS TABLE -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 overflow-hidden">
+
+    <div class="overflow-x-auto">
+
+        <table class="w-full">
+
+            <!-- TABLE HEADER -->
+
+            <thead class="bg-gradient-to-r from-[#163B9F] to-[#0A2E8A] text-white">
+
+                <tr>
+
+                    <th class="text-left px-8 py-6 font-semibold">
+
+                        Position
+
+                    </th>
+
+                    <th class="text-left px-8 py-6 font-semibold">
+
+                        Description
+
+                    </th>
+
+                    <th class="text-left px-8 py-6 font-semibold">
+
+                        Applicants
+
+                    </th>
+
+                    <th class="text-left px-8 py-6 font-semibold">
+
+                        Status
+
+                    </th>
+
+                    <th class="text-left px-8 py-6 font-semibold">
+
+                        Actions
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <!-- TABLE BODY -->
+
+            <tbody>
+
+                {% for position in positions %}
+
+                <tr class="border-b border-gray-100 hover:bg-[#F8FAFC] transition">
+
+                    <!-- POSITION -->
+
+                    <td class="px-8 py-6">
+
+                        <div>
+
+                            <h3 class="text-xl font-bold text-[#0F172A] mb-2">
+
+                                {{ position.title }}
+
+                            </h3>
+
+                            <p class="text-gray-500 text-sm">
+
+                                Slug:
+                                {{ position.slug }}
+
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                    <!-- DESCRIPTION -->
+
+                    <td class="px-8 py-6">
+
+                        <p class="text-gray-600 leading-relaxed">
+
+                            {{ position.description|truncatewords:20 }}
+
+                        </p>
+
+                    </td>
+
+                    <!-- APPLICANTS -->
+
+                    <td class="px-8 py-6">
+
+                        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#EAF1FF] text-[#163B9F] font-bold text-xl">
+
+                            {{ position.application_set.count }}
+
+                        </div>
+
+                    </td>
+
+                    <!-- STATUS -->
+
+                    <td class="px-8 py-6">
+
+                        {% if position.is_active %}
+
+                        <span class="px-5 py-2 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
+
+                            Active
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="px-5 py-2 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
+
+                            Inactive
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <!-- ACTIONS -->
+
+                    <td class="px-8 py-6">
+
+                        <div class="flex flex-wrap gap-3">
+
+                            <!-- EDIT -->
+
+                            <a href="/recruiter/positions/{{ position.id }}/edit/"
+                               class="bg-[#163B9F] hover:bg-[#0A2E8A] text-white px-5 py-3 rounded-2xl font-semibold transition">
+
+                                Edit
+
+                            </a>
+
+                            <!-- DELETE -->
+
+                            <a href="/recruiter/positions/{{ position.id }}/delete/"
+                               onclick="return confirm('Delete this position?')"
+                               class="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-2xl font-semibold transition">
+
+                                Delete
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <!-- EMPTY STATE -->
+
+                <tr>
+
+                    <td colspan="5"
+                        class="px-8 py-20 text-center">
+
+                        <div class="flex flex-col items-center">
+
+                            <div class="text-7xl mb-6">
+
+                                📁
+
+                            </div>
+
+                            <h3 class="text-3xl font-bold text-[#0F172A] mb-3">
+
+                                No Positions Available
+
+                            </h3>
+
+                            <p class="text-gray-500 text-lg mb-8">
+
+                                Create your first recruitment position.
+
+                            </p>
+
+                            <a href="/recruiter/positions/create/"
+                               class="bg-[#163B9F] hover:bg-[#0A2E8A] text-white px-7 py-4 rounded-2xl font-semibold transition shadow-md">
+
+                                + Create Position
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

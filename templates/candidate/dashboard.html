@@ -1,0 +1,366 @@
+{% extends 'candidate/base.html' %}
+
+{% block title %}
+Candidate Dashboard
+{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        Candidate Dashboard
+
+    </title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-slate-100 text-gray-800">
+
+<div class="max-w-7xl mx-auto py-12 px-6">
+
+    <!-- HEADER -->
+
+    <div class="mb-10">
+
+        <h1 class="text-5xl font-bold text-[#0F172A]">
+
+            Candidate Dashboard
+
+        </h1>
+
+        <p class="text-gray-500 mt-2">
+
+            Recruitment overview and application progress
+
+        </p>
+
+    </div>
+
+    <!-- HERO -->
+
+    <div class="bg-gradient-to-r from-[#163B9F] to-[#0A2E8A] rounded-[32px] p-10 text-white shadow-xl mb-10">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+
+                <h2 class="text-4xl font-bold mb-3">
+
+                    {{ profile.first_name }}
+                    {{ profile.last_name }}
+
+                </h2>
+
+                <p class="text-xl text-blue-100">
+
+                    Litera Publishing Talent Pool Candidate
+
+                </p>
+
+                <p class="mt-4 text-blue-200">
+
+                    {{ profile.institution|default:"Institution Not Set" }}
+
+                </p>
+
+                <div class="flex flex-wrap gap-6 mt-5 text-sm text-blue-100">
+
+                <span>
+                    🎓 {{ profile.study_program|default:"-" }}
+                </span>
+
+                <span>
+                    💼 {{ profile.occupation|default:"-" }}
+                </span>
+
+                <span>
+                    📚 {{ profile.scientific_field|default:"-" }}
+                </span>
+
+                <span>
+                    ⭐ {{ profile.ojs_skill|title|default:"Basic" }}
+                </span>
+
+            </div>
+
+            </div>
+
+            <div class="w-28 h-28 rounded-full bg-white/20 flex items-center justify-center text-4xl font-bold">
+
+                {{ profile.first_name|first }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="grid md:grid-cols-4 gap-6 mb-10">
+
+    <div class="bg-white rounded-3xl shadow-lg p-6">
+        <p class="text-gray-500">Applications</p>
+        <h2 class="text-5xl font-bold text-[#163B9F]">
+            {{ total_applications }}
+        </h2>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-lg p-6">
+        <p class="text-gray-500">Shortlisted</p>
+        <h2 class="text-5xl font-bold text-purple-600">
+            {{ shortlisted_count }}
+        </h2>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-lg p-6">
+        <p class="text-gray-500">Interview</p>
+        <h2 class="text-5xl font-bold text-orange-500">
+            {{ interview_count }}
+        </h2>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-lg p-6">
+        <p class="text-gray-500">Accepted</p>
+        <h2 class="text-5xl font-bold text-green-600">
+            {{ accepted_count }}
+        </h2>
+    </div>
+
+</div>
+
+    <!-- PROFILE -->
+
+    <!-- QUICK ACTIONS -->
+
+<div class="grid md:grid-cols-2 gap-8 mb-10">
+
+    <div class="bg-white rounded-[32px] shadow-xl p-8">
+
+        <h2 class="text-3xl font-bold mb-6">
+
+            Quick Actions
+
+        </h2>
+
+        <div class="grid grid-cols-2 gap-4">
+
+            <a href="{% url 'edit_profile' %}"
+               class="bg-[#163B9F] text-white p-5 rounded-2xl hover:bg-[#0D2E82] transition">
+
+                ✏️ Edit Profile
+
+            </a>
+
+            <a href="{% url 'my_applications' %}"
+               class="bg-green-600 text-white p-5 rounded-2xl hover:bg-green-700 transition">
+
+                📄 Applications
+
+            </a>
+
+            <a href="{% url 'security_settings' %}"
+               class="bg-orange-500 text-white p-5 rounded-2xl hover:bg-orange-600 transition">
+
+                🔒 Security
+
+            </a>
+
+            <a href="/#jobs"
+               class="bg-purple-600 text-white p-5 rounded-2xl hover:bg-purple-700 transition">
+
+                🚀 Open Jobs
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- PROFILE COMPLETION -->
+
+    <div class="bg-white rounded-[32px] shadow-xl p-8">
+
+        <h2 class="text-3xl font-bold mb-6">
+
+            Profile Status
+
+        </h2>
+
+        <div class="space-y-5">
+
+            <div class="flex justify-between">
+
+                <span>CV Uploaded</span>
+
+                {% if profile.cv %}
+                <span class="text-green-600 font-semibold">✓ Complete</span>
+                {% else %}
+                <span class="text-red-500 font-semibold">Missing</span>
+                {% endif %}
+
+            </div>
+
+            <div class="flex justify-between">
+
+                <span>Portfolio</span>
+
+                {% if profile.portfolio %}
+                <span class="text-green-600 font-semibold">✓ Complete</span>
+                {% else %}
+                <span class="text-orange-500 font-semibold">Optional</span>
+                {% endif %}
+
+            </div>
+
+            <div class="flex justify-between">
+
+                <span>Phone Number</span>
+
+                {% if profile.phone %}
+                <span class="text-green-600 font-semibold">✓ Complete</span>
+                {% else %}
+                <span class="text-red-500 font-semibold">Missing</span>
+                {% endif %}
+
+            </div>
+
+            <div class="flex justify-between">
+
+                <span>Institution</span>
+
+                {% if profile.institution %}
+                <span class="text-green-600 font-semibold">✓ Complete</span>
+                {% else %}
+                <span class="text-red-500 font-semibold">Missing</span>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- UPCOMING INTERVIEW -->
+
+    {% for application in applications %}
+
+    {% if application.status == 'interview' %}
+
+    <div class="bg-orange-50 border border-orange-100 rounded-[32px] p-8 shadow-lg mb-10">
+
+        <h2 class="text-3xl font-bold text-orange-600 mb-6">
+
+            Upcoming Interview
+
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <div>
+
+                <p class="text-gray-500">
+
+                    Assigned Journal
+
+                </p>
+
+                <h3 class="text-xl font-semibold">
+
+                    {{ application.assigned_journal }}
+
+                </h3>
+
+            </div>
+
+            <div>
+
+                <p class="text-gray-500">
+
+                    Interviewer
+
+                </p>
+
+                <h3 class="text-xl font-semibold">
+
+                    {{ application.assigned_interviewer }}
+
+                </h3>
+
+            </div>
+
+            <div>
+
+                <p class="text-gray-500">
+
+                    Interview Date
+
+                </p>
+
+                <h3 class="text-xl font-semibold">
+
+                    {{ application.interview_date }}
+
+                </h3>
+
+            </div>
+
+            <div>
+
+                <p class="text-gray-500">
+
+                    Interview Time
+
+                </p>
+
+                <h3 class="text-xl font-semibold">
+
+                    {{ application.interview_time }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+        {% if application.interview_link %}
+
+        <a href="{{ application.interview_link }}"
+           target="_blank"
+           class="inline-block mt-6 bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-2xl">
+
+            Join Interview
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+    {% endfor %}
+
+    <!-- APPLICATIONS -->    
+
+</div>
+
+</body>
+
+</html>
+
+{% endblock %}

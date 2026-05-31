@@ -1,0 +1,98 @@
+{% extends 'recruiter/base.html' %}
+
+{% block title %}
+Reject Candidate
+{% endblock %}
+
+{% block content %}
+
+<div class="mb-10">
+
+    <h1 class="text-5xl font-bold text-[#0F172A] mb-3">
+
+        Candidate Rejection
+
+    </h1>
+
+    <p class="text-gray-500 text-lg">
+
+        Record rejection reason and finalize recruitment decision
+
+    </p>
+
+</div>
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8 mb-8">
+
+    <h2 class="text-2xl font-bold mb-2">
+
+        {{ application.candidate.first_name }}
+        {{ application.candidate.last_name }}
+
+    </h2>
+
+    <p class="text-gray-500">
+
+        {{ application.position.title }}
+
+    </p>
+
+</div>
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-10">
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="bg-red-50 border border-red-100 rounded-3xl p-6 mb-8">
+
+            <h3 class="font-bold text-xl text-red-600 mb-2">
+
+                Rejection Notes
+
+            </h3>
+
+            <p class="text-gray-500">
+
+                Explain why this candidate is not selected.
+
+            </p>
+
+        </div>
+
+        <div class="mb-8">
+
+            <label class="block text-lg font-semibold mb-3">
+
+                Rejection Reason
+
+            </label>
+
+            {{ form.rejection_reason }}
+
+        </div>
+
+        <div class="flex gap-4">
+
+            <button type="submit"
+                    class="bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-2xl font-semibold transition">
+
+                Reject Candidate
+
+            </button>
+
+            <a href="/recruiter/application/{{ application.id }}/"
+               class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-8 py-4 rounded-2xl font-semibold transition">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

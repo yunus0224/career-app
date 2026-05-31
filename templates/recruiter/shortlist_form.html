@@ -1,0 +1,216 @@
+{% extends 'recruiter/base.html' %}
+
+{% block title %}
+Shortlist Candidate
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="mb-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+    <div>
+
+        <h1 class="text-5xl font-bold text-[#0F172A] mb-3">
+
+            Shortlist Candidate
+
+        </h1>
+
+        <p class="text-gray-500 text-lg">
+
+            Recruitment screening and candidate evaluation
+
+        </p>
+
+    </div>
+
+    <a href="/recruiter/application/{{ application.id }}/"
+       class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-4 rounded-2xl font-semibold transition">
+
+        ← Back Application
+
+    </a>
+
+</div>
+
+
+<!-- CANDIDATE INFO -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8 mb-10">
+
+    <div class="flex items-center gap-6">
+
+        <!-- AVATAR -->
+
+        <div class="w-24 h-24 rounded-3xl bg-[#EEF2FF] flex items-center justify-center text-[#163B9F] font-bold text-4xl">
+
+            {{ application.candidate.first_name|first }}
+            {{ application.candidate.last_name|first }}
+
+        </div>
+
+
+        <!-- INFO -->
+
+        <div>
+
+            <h2 class="text-3xl font-bold text-[#0F172A]">
+
+                {{ application.candidate.first_name }}
+                {{ application.candidate.last_name }}
+
+            </h2>
+
+            <p class="text-gray-500 text-lg mt-1">
+
+                {{ application.position.title }}
+
+            </p>
+
+            <div class="flex flex-wrap gap-3 mt-5">
+
+                <span class="bg-[#EEF2FF] text-[#163B9F] px-4 py-2 rounded-xl text-sm font-semibold">
+
+                    {{ application.candidate.institution }}
+
+                </span>
+
+                <span class="bg-[#F1F5F9] text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold">
+
+                    {{ application.candidate.scientific_field }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FORM -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-10 max-w-5xl">
+
+    <form method="POST"
+          class="space-y-8">
+
+        {% csrf_token %}
+
+        <!-- STATUS -->
+
+        <div class="bg-[#F8FAFC] border border-gray-100 rounded-3xl p-6">
+
+            <div class="flex items-center gap-4">
+
+                <div class="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center text-2xl">
+
+                    ⭐
+
+                </div>
+
+                <div>
+
+                    <h3 class="font-bold text-[#0F172A] text-xl">
+
+                        Candidate Screening
+
+                    </h3>
+
+                    <p class="text-gray-500 mt-1">
+
+                        This candidate will be moved to shortlisted status after submission.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        
+<!-- ASSIGNED JOURNAL -->
+
+<div>
+
+    <label class="block text-lg font-semibold text-[#0F172A] mb-3">
+
+        Assigned Journal
+
+    </label>
+
+    {{ form.assigned_journal }}
+
+</div>
+
+
+<!-- ASSIGNED INTERVIEWER -->
+
+<div>
+
+    <label class="block text-lg font-semibold text-[#0F172A] mb-3">
+
+        Assigned Interviewer
+
+    </label>
+
+    {{ form.assigned_interviewer }}
+
+</div>
+
+
+
+
+        <!-- NOTES -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-[#0F172A] mb-3">
+
+                Recruiter Notes
+
+            </label>
+
+            {{ form.shortlist_notes }}
+
+            <p class="text-sm text-gray-500 mt-3">
+
+                Write candidate evaluation, strengths, screening results,
+                publication experience, OJS skills, communication, or other
+                important recruiter notes.
+
+            </p>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="flex flex-wrap gap-4 pt-4">
+
+            <button type="submit"
+                    class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-2xl font-semibold transition shadow-lg">
+
+                Save Shortlist
+
+            </button>
+
+            <a href="/recruiter/application/{{ application.id }}/"
+               class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-8 py-4 rounded-2xl font-semibold transition">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

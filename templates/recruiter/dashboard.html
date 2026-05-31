@@ -1,0 +1,564 @@
+{% extends 'recruiter/base.html' %}
+
+{% block title %}
+Recruiter Dashboard
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="mb-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+    <div>
+
+        <h1 class="text-5xl font-bold text-[#0F172A] mb-3">
+
+            Recruiter Dashboard
+
+        </h1>
+
+        <p class="text-gray-500 text-lg">
+
+            Recruitment analytics and workflow monitoring
+
+        </p>
+
+    </div>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="flex flex-wrap gap-4">
+
+        <a href="/recruiter/positions/create/"
+           class="bg-[#163B9F] hover:bg-[#0A2E8A] text-white px-6 py-4 rounded-2xl font-semibold transition shadow-lg">
+
+            + Create Position
+
+        </a>
+
+        <a href="/recruiter/applications/"
+           class="bg-white border border-gray-200 hover:bg-gray-50 text-[#0F172A] px-6 py-4 rounded-2xl font-semibold transition">
+
+            Applications
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- STATS -->
+
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-6 mb-10">
+
+    <!-- TOTAL -->
+
+    <div class="bg-white rounded-[28px] shadow-lg border border-gray-100 p-6">
+
+        <p class="text-gray-500 text-sm mb-3">
+
+            Total Applicants
+
+        </p>
+
+        <h2 class="text-5xl font-bold text-[#163B9F]">
+
+            {{ total_count }}
+
+        </h2>
+
+    </div>
+
+    <!-- PENDING -->
+
+    <div class="bg-white rounded-[28px] shadow-lg border border-gray-100 p-6">
+
+        <p class="text-gray-500 text-sm mb-3">
+
+            Pending
+
+        </p>
+
+        <h2 class="text-5xl font-bold text-yellow-500">
+
+            {{ pending_count }}
+
+        </h2>
+
+    </div>
+
+    <!-- INTERVIEW -->
+
+    <div class="bg-white rounded-[28px] shadow-lg border border-gray-100 p-6">
+
+        <p class="text-gray-500 text-sm mb-3">
+
+            Interview
+
+        </p>
+
+        <h2 class="text-5xl font-bold text-orange-500">
+
+            {{ interview_count }}
+
+        </h2>
+
+    </div>
+
+    <!-- ACCEPTED -->
+
+    <div class="bg-white rounded-[28px] shadow-lg border border-gray-100 p-6">
+
+        <p class="text-gray-500 text-sm mb-3">
+
+            Accepted
+
+        </p>
+
+        <h2 class="text-5xl font-bold text-green-600">
+
+            {{ accepted_count }}
+
+        </h2>
+
+    </div>
+
+    <!-- REJECTED -->
+
+    <div class="bg-white rounded-[28px] shadow-lg border border-gray-100 p-6">
+
+        <p class="text-gray-500 text-sm mb-3">
+
+            Rejected
+
+        </p>
+
+        <h2 class="text-5xl font-bold text-red-500">
+
+            {{ rejected_count }}
+
+        </h2>
+
+    </div>
+
+    <!-- ACCEPTANCE RATE -->
+
+    <div class="bg-gradient-to-r from-[#163B9F] to-[#0A2E8A] rounded-[28px] shadow-lg p-6 text-white">
+
+        <p class="text-sm mb-3 text-blue-100">
+
+            Acceptance Rate
+
+        </p>
+
+        <h2 class="text-5xl font-bold">
+
+            {{ acceptance_rate }}%
+
+        </h2>
+
+    </div>
+
+</div>
+
+
+<!-- ANALYTICS GRID -->
+
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-10">
+
+    <!-- TOP UNIVERSITIES -->
+
+    <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 overflow-hidden">
+
+        <!-- HEADER -->
+
+        <div class="bg-gradient-to-r from-[#163B9F] to-[#0A2E8A] px-8 py-6">
+
+            <h2 class="text-2xl font-bold text-white">
+
+                Top Universities
+
+            </h2>
+
+            <p class="text-blue-100 mt-1">
+
+                Most active applicant institutions
+
+            </p>
+
+        </div>
+
+        <!-- CONTENT -->
+
+        <div class="p-8 space-y-5">
+
+            {% for university in top_universities %}
+
+            <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+
+                <div>
+
+                    <h3 class="font-semibold text-[#0F172A] text-lg">
+
+                        {{ university.candidate__institution }}
+
+                    </h3>
+
+                </div>
+
+                <div class="bg-[#E8EEF9] text-[#163B9F] px-4 py-2 rounded-2xl font-bold">
+
+                    {{ university.total }}
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p class="text-gray-500">
+
+                No data available.
+
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- POPULAR POSITIONS -->
+
+    <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 overflow-hidden">
+
+        <!-- HEADER -->
+
+        <div class="bg-gradient-to-r from-[#163B9F] to-[#0A2E8A] px-8 py-6">
+
+            <h2 class="text-2xl font-bold text-white">
+
+                Popular Positions
+
+            </h2>
+
+            <p class="text-blue-100 mt-1">
+
+                Most applied recruitment positions
+
+            </p>
+
+        </div>
+
+        <!-- CONTENT -->
+
+        <div class="p-8 space-y-5">
+
+            {% for position in popular_positions %}
+
+            <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+
+                <div>
+
+                    <h3 class="font-semibold text-[#0F172A] text-lg">
+
+                        {{ position.position__title }}
+
+                    </h3>
+
+                </div>
+
+                <div class="bg-[#E8EEF9] text-[#163B9F] px-4 py-2 rounded-2xl font-bold">
+
+                    {{ position.total }}
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p class="text-gray-500">
+
+                No data available.
+
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RECENT APPLICATIONS -->
+
+<div class="bg-white rounded-[32px] shadow-xl overflow-hidden border border-gray-100">
+
+    <!-- HEADER -->
+
+    <div class="bg-gradient-to-r from-[#163B9F] to-[#0A2E8A] px-8 py-7 flex items-center justify-between">
+
+        <div>
+
+            <h2 class="text-3xl font-bold text-white">
+
+                Recent Applications
+
+            </h2>
+
+            <p class="text-blue-100 mt-2">
+
+                Latest recruitment activities
+
+            </p>
+
+        </div>
+
+        <a href="/recruiter/applications/"
+           class="bg-white/20 hover:bg-white/30 text-white px-5 py-3 rounded-2xl font-semibold transition">
+
+            View All
+
+        </a>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="overflow-x-auto">
+
+        <table class="w-full">
+
+            <thead class="bg-[#F8FAFC] border-b border-gray-100">
+
+                <tr>
+
+                    <th class="text-left px-8 py-5 text-sm font-semibold text-gray-600 uppercase tracking-wide">
+
+                        Candidate
+
+                    </th>
+
+                    <th class="text-left px-6 py-5 text-sm font-semibold text-gray-600 uppercase tracking-wide">
+
+                        Position
+
+                    </th>
+
+                    <th class="text-left px-6 py-5 text-sm font-semibold text-gray-600 uppercase tracking-wide">
+
+                        Status
+
+                    </th>
+
+                    <th class="text-left px-6 py-5 text-sm font-semibold text-gray-600 uppercase tracking-wide">
+
+                        Date
+
+                    </th>
+
+                    <th class="text-left px-6 py-5 text-sm font-semibold text-gray-600 uppercase tracking-wide">
+
+                        Action
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for application in applications %}
+
+                <tr class="border-b border-gray-100 hover:bg-[#F8FAFC] transition">
+
+                    <!-- CANDIDATE -->
+
+                    <td class="px-8 py-6">
+
+                        <div class="flex items-center gap-4">
+
+                            <div class="w-14 h-14 rounded-2xl bg-[#E8EEF9] flex items-center justify-center text-[#163B9F] font-bold text-xl">
+
+                                {{ application.candidate.first_name|slice:":1" }}
+                                {{ application.candidate.last_name|slice:":1" }}
+
+                            </div>
+
+                            <div>
+
+                                <h3 class="font-bold text-[#0F172A] text-lg">
+
+                                    {{ application.candidate.first_name }}
+                                    {{ application.candidate.last_name }}
+
+                                </h3>
+
+                                <p class="text-gray-500 text-sm">
+
+                                    {{ application.candidate.institution }}
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- POSITION -->
+
+                    <td class="px-6 py-6">
+
+                        <h4 class="font-semibold text-[#0F172A]">
+
+                            {{ application.position.title }}
+
+                        </h4>
+
+                    </td>
+
+
+                    <!-- STATUS -->
+
+                    <td class="px-6 py-6">
+
+                        {% if application.status == 'pending' %}
+
+                        <span class="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full text-sm font-semibold">
+
+                            Pending
+
+                        </span>
+
+                        {% elif application.status == 'shortlisted' %}
+
+                        <span class="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold">
+
+                            Shortlisted
+
+                        </span>
+
+                        {% elif application.status == 'interview' %}
+
+                        <span class="bg-orange-100 text-orange-700 px-4 py-2 rounded-full text-sm font-semibold">
+
+                            Interview
+
+                        </span>
+
+                        {% elif application.status == 'accepted' %}
+
+                        <span class="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">
+
+                            Accepted
+
+                        </span>
+
+                        {% elif application.status == 'rejected' %}
+
+                        <span class="bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-semibold">
+
+                            Rejected
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- DATE -->
+
+                    <td class="px-6 py-6">
+
+                        <div>
+
+                            <h4 class="font-semibold text-[#0F172A]">
+
+                                {{ application.created_at|date:"M d, Y" }}
+
+                            </h4>
+
+                            <p class="text-gray-500 text-sm mt-1">
+
+                                {{ application.created_at|time:"H:i" }}
+
+                            </p>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- ACTION -->
+
+                    <td class="px-6 py-6">
+
+                        <a href="/recruiter/application/{{ application.id }}/"
+                           class="bg-[#163B9F] hover:bg-[#0A2E8A] text-white px-5 py-3 rounded-2xl font-semibold transition shadow-md">
+
+                            View Detail
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5"
+                        class="text-center py-20">
+
+                        <div class="flex flex-col items-center">
+
+                            <div class="w-24 h-24 rounded-full bg-[#F1F5F9] flex items-center justify-center text-5xl mb-6">
+
+                                📄
+
+                            </div>
+
+                            <h3 class="text-3xl font-bold text-[#0F172A] mb-3">
+
+                                No Applications Yet
+
+                            </h3>
+
+                            <p class="text-gray-500 text-lg">
+
+                                Recruitment applications will appear here.
+
+                            </p>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
+```

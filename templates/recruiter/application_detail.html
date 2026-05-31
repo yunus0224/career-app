@@ -1,0 +1,736 @@
+{% extends 'recruiter/base.html' %}
+
+{% block title %}
+Candidate Detail
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="mb-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+    <div>
+
+        <h1 class="text-5xl font-bold text-[#0F172A] mb-3">
+
+            Candidate Detail
+
+        </h1>
+
+        <p class="text-gray-500 text-lg">
+
+            Recruitment application overview and candidate assessment
+
+        </p>
+
+    </div>
+
+    <a href="/recruiter/dashboard/"
+       class="bg-[#163B9F] hover:bg-[#0A2E8A] text-white px-6 py-4 rounded-2xl font-semibold transition shadow-md">
+
+        ← Back Dashboard
+
+    </a>
+
+</div>
+
+
+<!-- APPLICATION TIMELINE -->
+
+<div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8 overflow-x-auto">
+
+    <div class="min-w-[900px] flex items-center">
+
+        <!-- APPLIED -->
+
+        <div class="flex flex-col items-center text-center w-full">
+
+            <div class="w-14 h-14 rounded-full bg-[#163B9F] text-white flex items-center justify-center font-bold text-lg shadow-md">
+
+                1
+
+            </div>
+
+            <p class="mt-4 font-semibold text-[#0F172A]">
+
+                Applied
+
+            </p>
+
+        </div>
+
+        <div class="flex-1 h-1 bg-gray-200 mx-3"></div>
+
+        <!-- REVIEWED -->
+
+        <div class="flex flex-col items-center text-center w-full">
+
+            <div class="
+                w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg
+                {% if application.status == 'reviewed' or application.status == 'shortlisted' or application.status == 'interview' or application.status == 'accepted' %}
+                bg-[#163B9F] text-white shadow-md
+                {% else %}
+                bg-gray-200 text-gray-500
+                {% endif %}
+            ">
+
+                2
+
+            </div>
+
+            <p class="mt-4 font-semibold text-[#0F172A]">
+
+                Reviewed
+
+            </p>
+
+        </div>
+
+        <div class="flex-1 h-1 bg-gray-200 mx-3"></div>
+
+        <!-- SHORTLIST -->
+
+        <div class="flex flex-col items-center text-center w-full">
+
+            <div class="
+                w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg
+                {% if application.status == 'shortlisted' or application.status == 'interview' or application.status == 'accepted' %}
+                bg-purple-600 text-white shadow-md
+                {% else %}
+                bg-gray-200 text-gray-500
+                {% endif %}
+            ">
+
+                3
+
+            </div>
+
+            <p class="mt-4 font-semibold text-[#0F172A]">
+
+                Shortlisted
+
+            </p>
+
+        </div>
+
+        <div class="flex-1 h-1 bg-gray-200 mx-3"></div>
+
+        <!-- INTERVIEW -->
+
+        <div class="flex flex-col items-center text-center w-full">
+
+            <div class="
+                w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg
+                {% if application.status == 'interview' or application.status == 'accepted' %}
+                bg-orange-500 text-white shadow-md
+                {% else %}
+                bg-gray-200 text-gray-500
+                {% endif %}
+            ">
+
+                4
+
+            </div>
+
+            <p class="mt-4 font-semibold text-[#0F172A]">
+
+                Interview
+
+            </p>
+
+        </div>
+
+        <div class="flex-1 h-1 bg-gray-200 mx-3"></div>
+
+        <!-- ACCEPTED -->
+
+        <div class="flex flex-col items-center text-center w-full">
+
+            <div class="
+                w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg
+                {% if application.status == 'accepted' %}
+                bg-[#56C02B] text-white shadow-md
+                {% else %}
+                bg-gray-200 text-gray-500
+                {% endif %}
+            ">
+
+                5
+
+            </div>
+
+            <p class="mt-4 font-semibold text-[#0F172A]">
+
+                Accepted
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PROFILE HEADER -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-10 mb-8">
+
+    <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+
+        <!-- PROFILE -->
+
+        <div class="flex items-center gap-6">
+
+            <div class="w-24 h-24 rounded-3xl bg-[#EAF1FF] flex items-center justify-center text-[#0A2E8A] text-3xl font-bold">
+
+                {{ application.candidate.first_name|first }}
+                {{ application.candidate.last_name|first }}
+
+            </div>
+
+            <div>
+
+                <h2 class="text-4xl font-bold text-[#0F172A] mb-2">
+
+                    {{ application.candidate.first_name }}
+                    {{ application.candidate.last_name }}
+
+                </h2>
+
+                <p class="text-lg text-gray-500 mb-4">
+
+                    {{ application.position.title }}
+
+                </p>
+
+                {% if application.status == 'pending' %}
+
+                <span class="px-5 py-2 rounded-full bg-yellow-100 text-yellow-700 font-semibold">
+                    Pending
+                </span>
+
+                {% elif application.status == 'reviewed' %}
+
+                <span class="px-5 py-2 rounded-full bg-blue-100 text-blue-700 font-semibold">
+                    Reviewed
+                </span>
+
+                {% elif application.status == 'shortlisted' %}
+
+                <span class="px-5 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold">
+                    Shortlisted
+                </span>
+
+                {% elif application.status == 'interview' %}
+
+                <span class="px-5 py-2 rounded-full bg-orange-100 text-orange-700 font-semibold">
+                    Interview
+                </span>
+
+                {% elif application.status == 'accepted' %}
+
+                <span class="px-5 py-2 rounded-full bg-green-100 text-green-700 font-semibold">
+                    Accepted
+                </span>
+
+                {% elif application.status == 'rejected' %}
+
+                <span class="px-5 py-2 rounded-full bg-red-100 text-red-700 font-semibold">
+                    Rejected
+                </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="bg-[#F8FAFC] rounded-3xl border border-gray-100 p-6">
+
+            <h3 class="text-xl font-bold mb-5">
+
+                Recruitment Actions
+
+            </h3>
+
+            <div class="grid grid-cols-2 gap-3 mt-6">
+
+   <a href="/recruiter/application/{{ application.id }}/shortlist/"
+    class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-2xl font-semibold transition">
+
+        Shortlist
+
+    </a>
+
+    
+    <a href="/recruiter/application/{{ application.id }}/interview/"
+    class="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-2xl font-semibold transition inline-block">
+
+        Interview
+
+    </a>
+
+
+
+    <a href="/recruiter/application/{{ application.id }}/accept/"
+        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-semibold transition">
+
+            Accept
+
+    </a>
+
+    <a href="/recruiter/application/{{ application.id }}/reject/"
+        class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-semibold transition">
+
+    Reject
+
+</a>
+
+</div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- CONTENT GRID -->
+
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+    <!-- LEFT -->
+
+    <div class="space-y-8">
+
+        <!-- ACADEMIC PROFILE -->
+
+        <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8">
+
+            <h3 class="text-2xl font-bold mb-8">
+
+                Academic Profile
+
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <div>
+                    <p class="text-sm text-gray-500 mb-2">Institution</p>
+                    <h4 class="text-lg font-semibold">{{ application.candidate.institution }}</h4>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500 mb-2">Study Program</p>
+                    <h4 class="text-lg font-semibold">{{ application.candidate.study_program }}</h4>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500 mb-2">Scientific Field</p>
+                    <h4 class="text-lg font-semibold">{{ application.candidate.scientific_field }}</h4>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500 mb-2">Occupation</p>
+                    <h4 class="text-lg font-semibold">{{ application.candidate.occupation }}</h4>
+                </div>
+
+            </div>
+
+        </div>
+
+
+<!-- RECRUITMENT PROCESS -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8">
+
+    <h3 class="text-2xl font-bold mb-8">
+
+        Recruitment Process
+
+    </h3>
+
+    <div class="space-y-6">
+
+        <!-- ASSIGNED JOURNAL -->
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Assigned Journal
+
+            </p>
+
+            <h4 class="text-lg font-semibold">
+
+                {{ application.assigned_journal|default:'-' }}
+
+            </h4>
+
+        </div>
+
+
+        <!-- ASSIGNED INTERVIEWER -->
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Assigned Interviewer
+
+            </p>
+
+            <h4 class="text-lg font-semibold">
+
+                {{ application.assigned_interviewer|default:'-' }}
+
+            </h4>
+
+        </div>
+
+
+        <!-- INTERVIEW DATE -->
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Interview Date
+
+            </p>
+
+            <h4 class="text-lg font-semibold">
+
+                {{ application.interview_date|default:'-' }}
+
+            </h4>
+
+        </div>
+
+
+        <!-- INTERVIEW TIME -->
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Interview Time
+
+            </p>
+
+            <h4 class="text-lg font-semibold">
+
+                {{ application.interview_time|default:'-' }}
+
+            </h4>
+
+        </div>
+
+
+        <!-- INTERVIEW LINK -->
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Interview Link
+
+            </p>
+
+            {% if application.interview_link %}
+
+            <a href="{{ application.interview_link }}"
+               target="_blank"
+               class="inline-flex items-center gap-2 bg-[#163B9F] hover:bg-[#0A2E8A] text-white px-5 py-3 rounded-2xl font-semibold transition">
+
+                Open Interview Meeting
+
+            </a>
+
+            {% else %}
+
+            <h4 class="text-lg font-semibold">
+
+                -
+
+            </h4>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>       
+
+        
+
+    </div>
+
+
+    <!-- RIGHT -->
+
+    <div class="space-y-8">
+
+        <!-- CV -->
+
+        <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8">
+
+            <div class="flex items-center justify-between mb-8">
+
+                <div>
+
+                    <h3 class="text-2xl font-bold text-[#0F172A] mb-2">
+
+                        Curriculum Vitae
+
+                    </h3>
+
+                    <p class="text-gray-500">
+
+                        Candidate uploaded document
+
+                    </p>
+
+                </div>
+
+                <div class="w-16 h-16 rounded-2xl bg-[#EAF1FF] flex items-center justify-center text-3xl">
+
+                    📄
+
+                </div>
+
+            </div>
+
+            <div class="border border-gray-200 rounded-3xl p-6 bg-[#F8FAFC]">
+
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+
+                    <div>
+
+                        <h4 class="text-lg font-semibold text-[#0F172A] mb-2">
+
+                            Candidate CV Document
+
+                        </h4>
+
+                        <p class="text-gray-500 text-sm">
+
+                            PDF Document
+
+                        </p>
+
+                    </div>
+
+                    <div class="flex gap-3">
+
+                        <a href="{{ application.candidate.cv.url }}"
+                           target="_blank"
+                           class="bg-white border border-gray-300 hover:border-[#0A2E8A] hover:text-[#0A2E8A] px-5 py-3 rounded-2xl font-medium transition">
+
+                            Open
+
+                        </a>
+
+                        <a href="{{ application.candidate.cv.url }}"
+                           download
+                           class="bg-[#56C02B] hover:bg-[#4CAF24] text-white px-5 py-3 rounded-2xl font-medium transition shadow-md">
+
+                            Download CV
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- NOTES -->
+
+        <div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8">
+
+            
+
+<!-- INTERVIEW SCHEDULE -->
+
+<div class="mb-8">
+
+    <div class="flex items-center justify-between mb-3">
+
+    <h3 class="text-lg font-semibold text-orange-500">
+
+        Interview Schedule
+
+    </h3>
+
+    {% if application.status == 'interview' %}
+
+    <a href="/recruiter/application/{{ application.id }}/evaluation/"
+       class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition">
+
+        Add Interview Notes
+
+    </a>
+
+    {% endif %}
+
+</div>
+
+    <div class="bg-[#F8FAFC] rounded-2xl p-5 border border-gray-100">
+
+        {% if application.interview_date %}
+
+        <div class="space-y-3">
+
+            <p class="text-gray-700">
+
+                <span class="font-semibold">
+                    Date:
+                </span>
+
+                {{ application.interview_date }}
+
+            </p>
+
+            <p class="text-gray-700">
+
+                <span class="font-semibold">
+                    Time:
+                </span>
+
+                {{ application.interview_time }}
+
+            </p>
+
+            <p class="text-gray-700">
+
+                <span class="font-semibold">
+                    Meeting Link:
+                </span>
+
+                <a href="{{ application.interview_link }}"
+                   target="_blank"
+                   class="text-[#163B9F] underline">
+
+                    Join Meeting
+
+                </a>
+
+            </p>
+
+        </div>
+
+        {% else %}
+
+        <p class="text-gray-400 italic">
+
+            No interview schedule available.
+
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+
+<!-- RECRUITMENT NOTES -->
+ 
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8">
+
+    <h2 class="text-3xl font-bold text-[#0F172A] mb-8">
+
+        Recruitment Notes
+
+    </h2>
+
+    <!-- SHORTLIST NOTES -->
+
+    <div class="mb-8">
+
+        <h3 class="text-lg font-semibold text-purple-600 mb-3">
+
+            Shortlist Notes
+
+        </h3>
+
+        <div class="bg-[#F8FAFC] rounded-2xl p-5 border border-gray-100">
+
+            {% if application.shortlist_notes %}
+
+            <p class="text-gray-700 whitespace-pre-line">
+
+                {{ application.shortlist_notes }}
+
+            </p>
+
+            {% else %}
+
+            <p class="text-gray-400 italic">
+
+                No shortlist notes available.
+
+            </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- INTERVIEW NOTES -->
+
+    <div>
+
+        <h3 class="text-lg font-semibold text-orange-500 mb-3">
+
+            Interview Notes
+
+        </h3>
+
+        <div class="bg-[#F8FAFC] rounded-2xl p-5 border border-gray-100">
+
+            {% if application.interview_notes %}
+
+            <p class="text-gray-700 whitespace-pre-line">
+
+                {{ application.interview_notes }}
+
+            </p>
+
+            {% else %}
+
+            <p class="text-gray-400 italic">
+
+                No interview notes available.
+
+            </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>            
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

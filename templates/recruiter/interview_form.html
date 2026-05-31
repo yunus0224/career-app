@@ -1,0 +1,301 @@
+{% extends 'recruiter/base.html' %}
+
+{% block title %}
+Interview Management
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="mb-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+    <div>
+
+        <h1 class="text-5xl font-bold text-[#0F172A] mb-3">
+
+            Interview Management
+
+        </h1>
+
+        <p class="text-gray-500 text-lg">
+
+            Schedule candidate interview session
+
+        </p>
+
+    </div>
+
+    <a href="/recruiter/application/{{ application.id }}/"
+       class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-4 rounded-2xl font-semibold transition">
+
+        ← Back Application
+
+    </a>
+
+</div>
+
+
+<!-- CANDIDATE INFO -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-8 mb-10">
+
+    <div class="flex items-center gap-6">
+
+        <!-- AVATAR -->
+
+        <div class="w-24 h-24 rounded-3xl bg-[#EEF2FF] flex items-center justify-center text-[#163B9F] font-bold text-4xl">
+
+            {{ application.candidate.first_name|first }}
+            {{ application.candidate.last_name|first }}
+
+        </div>
+
+        <!-- INFO -->
+
+        <div>
+
+            <h2 class="text-3xl font-bold text-[#0F172A]">
+
+                {{ application.candidate.first_name }}
+                {{ application.candidate.last_name }}
+
+            </h2>
+
+            <p class="text-gray-500 text-lg mt-1">
+
+                {{ application.position.title }}
+
+            </p>
+
+            <div class="flex flex-wrap gap-3 mt-5">
+
+                <span class="bg-[#EEF2FF] text-[#163B9F] px-4 py-2 rounded-xl text-sm font-semibold">
+
+                    {{ application.candidate.institution }}
+
+                </span>
+
+                <span class="bg-[#F1F5F9] text-gray-700 px-4 py-2 rounded-xl text-sm font-semibold">
+
+                    {{ application.candidate.scientific_field }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RECRUITMENT ASSIGNMENT -->
+
+<div class="bg-[#F8FAFC] border border-gray-100 rounded-3xl p-6 mb-10">
+
+    <h3 class="text-2xl font-bold text-[#0F172A] mb-6">
+
+        Recruitment Assignment
+
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- JOURNAL -->
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Assigned Journal
+
+            </p>
+
+            <div class="bg-white rounded-2xl px-5 py-4 border border-gray-100">
+
+                {% if application.assigned_journal %}
+
+                    {{ application.assigned_journal }}
+
+                {% else %}
+
+                    -
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- INTERVIEWER -->
+
+        <div>
+
+            <p class="text-sm text-gray-500 mb-2">
+
+                Assigned Interviewer
+
+            </p>
+
+            <div class="bg-white rounded-2xl px-5 py-4 border border-gray-100">
+
+                {% if application.assigned_interviewer %}
+
+                    {{ application.assigned_interviewer }}
+
+                {% else %}
+
+                    -
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- INTERVIEW FORM -->
+
+<div class="bg-white rounded-[32px] shadow-xl border border-gray-100 p-10 max-w-5xl">
+
+    <form method="POST"
+          class="space-y-8">
+
+        {% csrf_token %}
+
+        <!-- INFO -->
+
+        <div class="bg-[#F8FAFC] border border-gray-100 rounded-3xl p-6">
+
+            <div class="flex items-center gap-4">
+
+                <div class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center text-2xl">
+
+                    🎤
+
+                </div>
+
+                <div>
+
+                    <h3 class="font-bold text-[#0F172A] text-xl">
+
+                        Interview Session
+
+                    </h3>
+
+                    <p class="text-gray-500 mt-1">
+
+                        Candidate will receive interview invitation email automatically.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DATE -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-[#0F172A] mb-3">
+
+                Interview Date
+
+            </label>
+
+            {{ form.interview_date }}
+
+        </div>
+
+
+        <!-- TIME -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-[#0F172A] mb-3">
+
+                Interview Time
+
+            </label>
+
+            {{ form.interview_time }}
+
+        </div>
+
+
+        <!-- LINK -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-[#0F172A] mb-3">
+
+                Meeting Link
+
+            </label>
+
+            {{ form.interview_link }}
+
+        </div>
+
+        
+
+
+        <!-- NOTES -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-[#0F172A] mb-3">
+
+                Interview Notes
+
+            </label>
+
+            {{ form.interview_notes }}
+
+            <p class="text-sm text-gray-500 mt-3">
+
+                Add recruiter notes, technical test instructions,
+                interview preparation, or evaluation criteria.
+
+            </p>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="flex flex-wrap gap-4 pt-4">
+
+            <button type="submit"
+                    class="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-semibold transition shadow-lg">
+
+                Schedule Interview
+
+            </button>
+
+            <a href="/recruiter/application/{{ application.id }}/"
+               class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-8 py-4 rounded-2xl font-semibold transition">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

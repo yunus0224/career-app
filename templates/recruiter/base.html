@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        {% block title %}
+        Litera ATS
+        {% endblock %}
+
+    </title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-[#F5F7FB] text-gray-800 antialiased">
+
+    <div class="flex min-h-screen">
+
+        <!-- SIDEBAR -->
+
+        <aside class="w-72 bg-gradient-to-b from-[#163B9F] to-[#0A2E8A] text-white fixed h-screen flex flex-col shadow-2xl">
+
+            <!-- LOGO -->
+
+            <div class="px-7 py-8 border-b border-blue-800">
+
+                <div class="bg-white rounded-[28px] p-6 shadow-xl">
+
+                    <div class="flex flex-col items-center text-center">
+
+                        <img src="/media/logo/litera-logo.png"
+                             alt="Litera Publishing"
+                             class="w-44 mb-5 object-contain">
+
+                        
+                      
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- NAVIGATION -->
+
+            <nav class="flex-1 px-5 py-6 space-y-2 overflow-y-auto">
+
+                <!-- ACTIVE -->
+
+                <a href="/recruiter/dashboard/"
+                   class="flex items-center gap-4 bg-[#56C02B] hover:bg-[#4CAF24] text-white px-5 py-4 rounded-2xl transition duration-200 shadow-lg">
+
+                    <span class="text-xl">
+
+                        📋
+
+                    </span>
+
+                    <span class="font-semibold text-[16px]">
+
+                        Dashboard
+
+                    </span>
+
+                </a>
+
+                <a href="/recruiter/applications/"
+                   class="flex items-center gap-4 hover:bg-[#163B9F] px-5 py-4 rounded-2xl transition duration-200">
+
+                    <span class="text-xl">
+
+                        👥
+
+                    </span>
+
+                    <span class="font-medium text-[16px]">
+
+                        Applications
+
+                    </span>
+
+                </a>
+
+                <a href="/recruiter/candidates/"
+                   class="flex items-center gap-4 hover:bg-[#163B9F] px-5 py-4 rounded-2xl transition duration-200">
+
+                    <span class="text-xl">
+
+                        🎓
+
+                    </span>
+
+                    <span class="font-medium text-[16px]">
+
+                        Candidates
+
+                    </span>
+
+                </a>
+
+                <a href="/recruiter/positions/"
+                    class="flex items-center gap-4 px-6 py-4 rounded-2xl">
+
+                    <span class="text-xl">
+
+                        💼
+
+                    </span>
+
+                    <span class="font-medium text-[16px]">
+
+                        Positions
+
+                    </span>
+
+                </a>
+
+                <a href="/admin/"
+                   class="flex items-center gap-4 hover:bg-[#163B9F] px-5 py-4 rounded-2xl transition duration-200">
+
+                    <span class="text-xl">
+
+                        ⚙
+
+                    </span>
+
+                    <span class="font-medium text-[16px]">
+
+                        Django Admin
+
+                    </span>
+
+                </a>
+
+            </nav>
+
+            <!-- SIDEBAR FOOTER -->
+
+            <div class="px-6 py-5 border-t border-blue-800">
+
+                <div class="text-center">
+
+                    <p class="text-blue-100 text-sm font-medium">
+
+                        Litera Publishing ATS
+
+                    </p>
+
+                    <p class="text-blue-200 text-xs mt-1">
+
+                        Version 1.0
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- MAIN -->
+
+        <main class="flex-1 ml-72 flex flex-col min-h-screen">
+
+            <!-- TOPBAR -->
+                <!-- TOPBAR -->
+
+<header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+
+    <div class="px-10 py-5 flex justify-between items-center">
+
+        <!-- TITLE -->
+
+        <div>
+
+            <h2 class="text-[34px] font-bold text-[#0A2E8A] leading-tight">
+
+                Litera Publishing Recruitment System
+
+            </h2>
+
+            <p class="text-gray-500 mt-1">
+
+                Recruiter Management Portal
+
+            </p>
+
+        </div>
+
+        <!-- RIGHT SECTION -->
+
+        <div class="flex items-center gap-4">
+
+            <!-- NOTIFICATION -->
+
+            <div class="relative">
+
+                <button
+                    onclick="toggleNotification()"
+                    class="relative bg-white border border-gray-200 w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm hover:bg-gray-50 transition">
+
+                    🔔
+
+                    {% if unread_notifications_count > 0 %}
+
+                    <span id="notificationBadge"
+                          class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">
+
+                        {{ unread_notifications_count }}
+
+                    </span>
+
+                    {% endif %}
+
+                </button>
+
+                <!-- DROPDOWN -->
+
+                <div id="notificationDropdown"
+                     class="hidden absolute right-0 mt-4 w-[420px] bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden z-50">
+
+                    <!-- HEADER -->
+
+                    <div class="bg-[#163B9F] px-6 py-5">
+
+                        <h3 class="text-white font-bold text-xl">
+
+                            Notifications
+
+                        </h3>
+
+                        <p class="text-blue-100 text-sm mt-1">
+
+                            Recruitment activities and updates
+
+                        </p>
+
+                    </div>
+
+                    <!-- LIST -->
+
+                    <div class="max-h-[500px] overflow-y-auto">
+
+                        {% for notification in notifications %}
+
+                        <div class="border-b border-gray-100 px-6 py-5 hover:bg-[#F8FAFC] transition">
+
+                            <h4 class="font-semibold text-[#0F172A]">
+
+                                {{ notification.title }}
+
+                            </h4>
+
+                            <p class="text-gray-500 text-sm mt-2">
+
+                                {{ notification.message }}
+
+                            </p>
+
+                            <p class="text-xs text-gray-400 mt-3">
+
+                                {{ notification.created_at|timesince }} ago
+
+                            </p>
+
+                        </div>
+
+                        {% empty %}
+
+                        <div class="px-6 py-16 text-center">
+
+                            <div class="text-5xl mb-4">
+
+                                🔔
+
+                            </div>
+
+                            <h3 class="font-bold text-xl text-[#0F172A]">
+
+                                No Notifications
+
+                            </h3>
+
+                            <p class="text-gray-500 mt-2">
+
+                                Recruitment notifications will appear here.
+
+                            </p>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- USER -->
+
+            <div class="text-right">
+
+                <p class="text-sm text-gray-400">
+
+                    Logged in as
+
+                </p>
+
+                <h3 class="font-semibold text-[17px] text-[#0F172A]">
+
+                    {{ request.user.username }}
+
+                </h3>
+
+            </div>
+
+            <!-- LOGOUT -->
+
+            <a href="/admin/logout/"
+               class="bg-[#0A2E8A] hover:bg-[#163B9F] text-white px-7 py-3 rounded-2xl shadow-md hover:shadow-lg transition duration-200 font-medium">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+            <!-- PAGE CONTENT -->
+
+            <section class="flex-1 p-10">
+
+                {% block content %}
+                {% endblock %}
+
+            </section>
+
+            <!-- FOOTER -->
+
+            <footer class="bg-white border-t border-gray-200">
+
+                <div class="px-10 py-5 flex justify-between items-center">
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+
+                            © 2026 Litera Publishing.
+                            All rights reserved.
+
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p class="text-sm text-gray-400">
+
+                            Recruitment & Talent Management Platform
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </footer>
+
+        </main>
+
+    </div>
+    <script>
+
+function toggleNotification() {
+
+    const dropdown = document.getElementById(
+        'notificationDropdown'
+    );
+
+    dropdown.classList.toggle('hidden');
+
+    const badge = document.getElementById(
+        'notificationBadge'
+    );
+
+    if (badge) {
+
+        badge.remove();
+
+    }
+
+}
+
+document.addEventListener('click', function(event) {
+
+    const dropdown = document.getElementById(
+        'notificationDropdown'
+    );
+
+    const button = event.target.closest('button');
+
+    if (!button && dropdown && !dropdown.contains(event.target)) {
+
+        dropdown.classList.add('hidden');
+
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>

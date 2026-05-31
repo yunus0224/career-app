@@ -1,0 +1,296 @@
+{% extends 'candidate/base.html' %}
+
+{% block title %}
+My Applications
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto">
+
+    <!-- HEADER -->
+
+    <div class="mb-10">
+
+        <h1 class="text-5xl font-bold text-gray-900">
+
+            My Applications
+
+        </h1>
+
+        <p class="text-gray-500 mt-3 text-lg">
+
+            Track all recruitment applications and status updates.
+
+        </p>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="grid md:grid-cols-4 gap-6 mb-10">
+
+        <div class="bg-white rounded-3xl shadow p-6">
+
+            <p class="text-gray-500">
+
+                Total Applications
+
+            </p>
+
+            <h2 class="text-4xl font-bold text-[#163B9F] mt-2">
+
+                {{ applications.count }}
+
+            </h2>
+
+        </div>
+
+        <div class="bg-white rounded-3xl shadow p-6">
+
+            <p class="text-gray-500">
+
+                Accepted
+
+            </p>
+
+            <h2 class="text-4xl font-bold text-green-600 mt-2">
+
+                {{ applications|length }}
+
+            </h2>
+
+        </div>
+
+        <div class="bg-white rounded-3xl shadow p-6">
+
+            <p class="text-gray-500">
+
+                Interviews
+
+            </p>
+
+            <h2 class="text-4xl font-bold text-orange-500 mt-2">
+
+                {{ interview_count|default:"0" }}
+
+            </h2>
+
+        </div>
+
+        <div class="bg-white rounded-3xl shadow p-6">
+
+            <p class="text-gray-500">
+
+                Rejected
+
+            </p>
+
+            <h2 class="text-4xl font-bold text-red-500 mt-2">
+
+                {{ rejected_count|default:"0" }}
+
+            </h2>
+
+        </div>
+
+    </div>
+
+        <!-- APPLICATION LIST -->
+
+<div class="space-y-8">
+
+    {% for app in applications %}
+
+    <div class="bg-white rounded-3xl shadow-lg overflow-hidden">
+
+        <!-- HEADER -->
+
+        <div class="p-8">
+
+            <div class="flex justify-between items-start">
+
+                <div>
+
+                    <h2 class="text-3xl font-bold text-gray-900">
+
+                        {{ app.position.title }}
+
+                    </h2>
+
+                    <p class="text-[#163B9F] mt-2 font-medium">
+
+                        {{ app.assigned_journal|default:"Waiting Journal Assignment" }}
+
+                    </p>
+
+                    <p class="text-gray-500 mt-3">
+
+                        Applied:
+                        {{ app.created_at|date:"d F Y H:i" }}
+
+                    </p>
+
+                </div>
+
+                <!-- STATUS -->
+
+                <div>
+
+                    {% if app.status == 'accepted' %}
+
+                    <span class="bg-green-100 text-green-700 px-6 py-3 rounded-full font-semibold">
+
+                        ✓ Accepted
+
+                    </span>
+
+                    {% elif app.status == 'rejected' %}
+
+                    <span class="bg-red-100 text-red-700 px-6 py-3 rounded-full font-semibold">
+
+                        ✕ Rejected
+
+                    </span>
+
+                    {% elif app.status == 'interview' %}
+
+                    <span class="bg-orange-100 text-orange-700 px-6 py-3 rounded-full font-semibold">
+
+                        ⏰ Interview
+
+                    </span>
+
+                    {% else %}
+
+                    <span class="bg-blue-100 text-blue-700 px-6 py-3 rounded-full font-semibold">
+
+                        {{ app.get_status_display }}
+
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- APPLICATION INFO -->
+
+            <div class="grid md:grid-cols-2 gap-8 mt-8">
+
+                <div>
+
+                    <p class="text-sm uppercase tracking-wide text-gray-500">
+
+                        Position Type
+
+                    </p>
+
+                    <p class="font-semibold text-lg mt-1">
+
+                        {{ app.position.get_position_type_display }}
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <p class="text-sm uppercase tracking-wide text-gray-500">
+
+                        Assigned Journal
+
+                    </p>
+
+                    <p class="font-semibold text-lg mt-1">
+
+                        {{ app.assigned_journal|default:"Waiting Assignment" }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- INTERVIEW ONLY -->
+
+            {% if app.status == 'interview' and app.interview_date %}
+
+            <div class="mt-8 p-6 bg-yellow-50 rounded-2xl border border-yellow-200">
+
+                <p class="font-semibold text-yellow-800">
+
+                    Interview Schedule
+
+                </p>
+
+                <p class="mt-2 text-gray-700">
+
+                    {{ app.interview_date }}
+                    {{ app.interview_time }}
+
+                </p>
+
+            </div>
+
+            {% endif %}
+
+            <!-- FOOTER -->
+
+            <div class="border-t mt-8 pt-6 flex justify-between items-center">
+
+                <span class="text-sm text-gray-500">
+
+                    Application ID #{{ app.id }}
+
+                </span>
+
+                <a
+                    href="{% url 'application_detail' app.id %}"
+                    class="bg-[#163B9F] text-white px-6 py-3 rounded-xl hover:bg-[#0D2E82] transition">
+
+                    View Detail →
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="bg-white rounded-3xl shadow-lg p-12 text-center">
+
+        <h2 class="text-3xl font-bold text-gray-700">
+
+            No Applications Yet
+
+        </h2>
+
+        <p class="text-gray-500 mt-3">
+
+            You have not submitted any recruitment applications.
+
+        </p>
+
+        <a href="/#jobs"
+           class="inline-block mt-6 bg-[#163B9F] text-white px-6 py-3 rounded-2xl">
+
+            Explore Open Positions
+
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+    </div>
+
+</div>
+
+{% endblock %}

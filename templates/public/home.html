@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Litera Career Hub
+    </title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- NAVBAR -->
+
+    <nav class="sticky top-0 z-50 bg-white shadow-md border-b">
+
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
+
+            <!-- LOGO -->
+
+            <div class="flex items-center gap-5">
+
+    <img src="/media/logo/litera-logo.png"
+         class="h-16 object-contain">
+
+    <div>
+
+        <h1 class="text-4xl font-bold text-[#163B9F]">
+
+            Litera Publishing
+
+        </h1>
+
+        <p class="text-gray-500">
+
+            Academic Talent Ecosystem
+
+        </p>
+
+        <p class="text-xs text-gray-400">
+
+            A Business Unit of PT Litera Integra Nusantara
+
+        </p>
+
+    </div>
+
+</div>
+
+            <!-- MENU -->
+
+            <div class="hidden md:flex items-center gap-10">
+
+                <a href="#home"
+                class="hover:text-[#163B9F] transition">
+
+                    Home
+
+                </a>
+
+                <a href="#jobs"
+                class="hover:text-[#163B9F] transition">
+
+                    Open Positions
+
+                </a>
+
+                <a href="#about"
+                class="hover:text-[#163B9F] transition">
+
+                    About Us
+
+                </a>
+
+                <a href="#contact"
+                class="hover:text-[#163B9F] transition">
+
+                    Contact
+
+                </a>
+
+                <a href="/admin/"
+                class="hover:text-[#163B9F] transition">
+
+                    Admin
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    
+
+    <!-- HERO SECTION -->
+
+    <section class="bg-gradient-to-r from-[#163B9F] to-[#0D2E82] text-white py-28">
+
+    <div class="max-w-7xl mx-auto px-6 text-center">
+
+        <p class="uppercase tracking-[0.25em] text-green-300 mb-5">
+
+            Litera Publishing Recruitment Platform
+
+        </p>
+
+        <h1 class="text-6xl md:text-7xl font-bold mb-8 leading-tight">
+
+            Build Your Career in
+            <br>
+            Academic Publishing
+
+        </h1>
+        
+
+        <p class="text-xl max-w-4xl mx-auto text-blue-100 leading-relaxed mb-10">
+
+            Join Litera Publishing and become part of Indonesia's
+            scientific publication ecosystem through journal management,
+            editorial services, publication support,
+            and academic talent development.
+
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4">
+
+            <a href="#jobs"
+               class="bg-white text-[#163B9F] px-8 py-4 rounded-xl font-bold">
+
+                Explore Positions
+
+            </a>
+
+            <a href="#why"
+               class="bg-green-500 hover:bg-green-600 px-8 py-4 rounded-xl font-bold">
+
+                Why Join Us
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- STATISTIC -->
+
+
+
+    <!-- OPEN POSITIONS -->
+
+    <section id="jobs"
+             class="max-w-7xl mx-auto py-24 px-6">
+
+        <!-- SECTION TITLE -->
+
+        <div class="text-center mb-20">
+
+            <h2 class="text-5xl font-bold mb-5">
+
+                Open Recruitment
+
+            </h2>
+
+            <p class="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
+
+                Join Litera Publishing and contribute
+                to sustainable scientific publication ecosystem
+                through collaborative academic talent development.
+
+            </p>
+
+        </div>
+
+        
+        <!-- POSITION GRID -->
+
+        <div class="grid md:grid-cols-2 gap-10 items-stretch">
+
+            {% for position in positions %}
+
+            <!-- CARD -->
+
+            <div class="bg-white border border-gray-200 rounded-3xl shadow-md hover:shadow-xl transition p-10 flex flex-col justify-between">
+
+                <!-- TOP CONTENT -->                 
+
+                <div>
+
+                                  
+
+                    <!-- POSITION TYPE + STATUS -->
+
+                    <div class="flex justify-between items-center mb-8">
+
+                        <span class="bg-[#163B9F] text-white text-sm px-5 py-2 rounded-full">
+
+                            {{ position.get_position_type_display }}
+
+                        </span>
+
+                        {% if position.recruitment_open %}
+
+                            <span class="bg-green-500 text-white px-4 py-2 rounded-full text-xs font-bold">
+
+                                ● OPEN
+
+                            </span>
+
+                        {% else %}
+
+                            <span class="bg-red-500 text-white px-4 py-2 rounded-full text-xs font-bold">
+
+                                ● CLOSED
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <!-- TITLE -->
+
+                    <h3 class="text-4xl font-bold mb-6 text-gray-900">
+
+                        {{ position.title }}
+
+                    </h3>
+
+                    <!-- DESCRIPTION -->
+
+                    <p class="text-gray-600 leading-relaxed text-lg mb-8 text-justify">
+
+                        {{ position.description|truncatewords:40 }}
+
+                    </p>
+
+                    {% if position.requirements %}
+
+                <div class="mb-8">
+
+                    <h4 class="text-lg font-semibold text-[#163B9F] mb-3">
+
+                        📋 Candidate Requirements
+
+                    </h4>
+
+                    <div class="bg-blue-50 border-l-4 border-[#163B9F] rounded-r-2xl p-5 min-h-[110px] flex items-start">
+
+                        <p class="text-gray-700 text-sm leading-relaxed text-justify">
+
+                            {{ position.requirements|linebreaks }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+                </div>
+
+                <!-- BOTTOM CONTENT -->
+
+                <div>
+
+                    <!-- COMPENSATION -->
+
+                    <div class="bg-gray-100 rounded-2xl p-6 min-h-[140px] flex flex-col justify-center mb-8">
+
+                        <p class="text-sm text-gray-500 mb-3 uppercase tracking-wide">
+
+                            Compensation Scheme
+
+                        </p>
+
+                        <h4 class="text-2xl font-bold leading-relaxed text-gray-900">
+
+                            {{ position.fee_scheme }}
+
+                        </h4>
+
+                    </div>
+
+                    <!-- APPLY BUTTON -->
+
+                   {% if position.recruitment_open %}
+
+                    <a href="/apply/{{ position.slug }}/"
+                    class="block text-center w-full bg-[#163B9F] text-white py-5 rounded-2xl font-semibold hover:bg-[#0D2E82] transition">
+
+                        Apply Now
+
+                    </a>
+
+                    {% else %}
+
+                    <div class="block text-center w-full bg-gray-400 text-white py-5 rounded-2xl font-semibold cursor-not-allowed">
+
+                        Recruitment Closed
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <!-- WHY JOIN -->
+
+    <section id="why" class="bg-white py-24">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="text-center mb-16">
+
+            <h2 class="text-5xl font-bold mb-4">
+                Why Join Litera Publishing?
+            </h2>
+
+            <p class="text-gray-600">
+                Build your academic publishing career with us.
+            </p>
+
+        </div>
+
+        <div class="grid md:grid-cols-4 gap-8">
+
+            <div class="bg-[#F4F7FC] p-8 rounded-2xl">
+                <h3 class="font-bold text-xl mb-3">
+                    Remote Working
+                </h3>
+                <p class="text-gray-600">
+                    Flexible work environment.
+                </p>
+            </div>
+
+            <div class="bg-[#F4F7FC] p-8 rounded-2xl">
+                <h3 class="font-bold text-xl mb-3">
+                    Academic Network
+                </h3>
+                <p class="text-gray-600">
+                    Connect with scholars and editors.
+                </p>
+            </div>
+
+            <div class="bg-[#F4F7FC] p-8 rounded-2xl">
+                <h3 class="font-bold text-xl mb-3">
+                    Career Development
+                </h3>
+                <p class="text-gray-600">
+                    Continuous professional growth.
+                </p>
+            </div>
+
+            <div class="bg-[#F4F7FC] p-8 rounded-2xl">
+                <h3 class="font-bold text-xl mb-3">
+                    Publication Experience
+                </h3>
+                <p class="text-gray-600">
+                    Hands-on scholarly publishing.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section id="about" class="py-24 bg-white">
+
+    <div class="max-w-6xl mx-auto px-6">
+
+        <div class="text-center mb-16">
+
+            <span class="text-[#163B9F] uppercase tracking-widest font-semibold">
+
+                About Us
+
+            </span>
+
+            <h2 class="text-5xl font-bold mt-4 mb-6">
+
+                Building Sustainable Scientific Publishing Ecosystems
+
+            </h2>
+
+            <p class="text-xl text-gray-600 leading-relaxed max-w-4xl mx-auto">
+
+                Litera Publishing is a scientific publication ecosystem focused on journal
+                management, editorial services, accreditation support, indexing development,
+                and academic talent growth through innovative and sustainable publishing solutions.
+
+            </p>
+
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+
+            <div class="bg-slate-50 rounded-3xl p-8">
+
+                <div class="text-4xl mb-4">📚</div>
+
+                <h3 class="text-2xl font-bold mb-3">
+
+                    Journal Management
+
+                </h3>
+
+                <p class="text-gray-600">
+
+                    Professional support for editorial workflows,
+                    OJS implementation, peer review management,
+                    and publication quality improvement.
+
+                </p>
+
+            </div>
+
+            <div class="bg-slate-50 rounded-3xl p-8">
+
+                <div class="text-4xl mb-4">🎓</div>
+
+                <h3 class="text-2xl font-bold mb-3">
+
+                    Talent Development
+
+                </h3>
+
+                <p class="text-gray-600">
+
+                    Developing future journal managers,
+                    editorial assistants, reviewers,
+                    and scholarly publishing professionals.
+
+                </p>
+
+            </div>
+
+            <div class="bg-slate-50 rounded-3xl p-8">
+
+                <div class="text-4xl mb-4">🌎</div>
+
+                <h3 class="text-2xl font-bold mb-3">
+
+                    Global Visibility
+
+                </h3>
+
+                <p class="text-gray-600">
+
+                    Supporting indexing, accreditation,
+                    metadata quality, and international
+                    publication standards.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact"
+         class="bg-white py-24">
+
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="text-center mb-16">
+
+            <h2 class="text-5xl font-bold text-[#0F172A] mb-5">
+
+                Contact Us
+
+            </h2>
+
+            <p class="text-gray-600 text-lg">
+
+                Get in touch with Litera Publishing Recruitment Team
+
+            </p>
+
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+
+            <div class="bg-slate-50 rounded-3xl p-8">
+
+                <h3 class="font-bold text-xl mb-4">
+
+                    📍 Office
+
+                </h3>
+
+                <p class="text-gray-600">
+
+                    Litera Publishing
+                    <br>
+                    Tojong-ojong, Batukliang, Lombok Tengah, Nusa Tenggara Barat, 83552
+                    <br>
+                    Indonesia
+
+                </p>
+
+            </div>
+
+            <div class="bg-slate-50 rounded-3xl p-8">
+
+                <h3 class="font-bold text-xl mb-4">
+
+                    📞 Contact
+
+                </h3>
+
+                <p class="text-gray-600">
+
+                    WhatsApp:
+                    <br>
+                    +62 878 9665 3570
+
+                </p>
+
+            </div>
+
+            <div class="bg-slate-50 rounded-3xl p-8">
+
+                <h3 class="font-bold text-xl mb-4">
+
+                    📧 Email
+
+                </h3>
+
+                <p class="text-gray-600">
+
+                    literaintegranusantara@gmail.com
+                    <br>                    
+                    recruitment@literapublishing.com
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+   <!-- FOOTER -->
+
+<footer class="bg-[#163B9F] text-white py-20">
+
+
+<div class="max-w-7xl mx-auto px-6">
+
+    <div class="grid md:grid-cols-4 gap-12">
+
+        <!-- COMPANY -->
+
+        <div>
+
+            <img src="/media/logo/litera-logo.png"
+                 alt="Litera Publishing"
+                 class="w-36 mb-6">
+
+            <h3 class="font-bold text-2xl">
+
+                Litera Publishing
+
+            </h3>
+
+            <p class="text-blue-100 mt-3">
+
+                Academic Talent Ecosystem
+
+            </p>
+
+            <p class="text-blue-200 text-sm mt-4 leading-relaxed">
+
+                A Business Unit of
+                PT Litera Integra Nusantara
+
+            </p>
+
+        </div>
+
+        <!-- RECRUITMENT -->
+
+        <div>
+
+            <h3 class="font-bold text-xl mb-6">
+
+                Recruitment
+
+            </h3>
+
+            <ul class="space-y-3 text-blue-100">
+
+                <li>
+
+                    <a href="#jobs"
+                       class="hover:text-white transition">
+
+                        Open Positions
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="#journal-manager"
+                       class="hover:text-white transition">
+
+                        Journal Manager
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="#journal-assistant"
+                       class="hover:text-white transition">
+
+                        Journal Assistant
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- BUSINESS UNITS -->
+
+        <div>
+
+            <h3 class="font-bold text-xl mb-6">
+
+                Business Units
+
+            </h3>
+
+            <ul class="space-y-3 text-blue-100">
+
+                <li>
+
+                    <a href="https://literapublishing.id/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="hover:text-white transition">
+
+                        Litera Publishing
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="https://literasmartsolutions.id/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="hover:text-white transition">
+
+                        Litera Smart Solutions
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- CONTACT -->
+
+        <div>
+
+            <h3 class="font-bold text-xl mb-6">
+
+                Contact
+
+            </h3>
+
+            <ul class="space-y-3 text-blue-100">
+
+                <li>
+
+                    <a href="mailto:literaintegranusantara@gmail.com"
+                       class="hover:text-white transition">
+
+                        📧 literaintegranusantara@gmail.com
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="https://career.literapublishing.id"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="hover:text-white transition">
+
+                        🌐 https://career.literapublishing.id
+
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a href="https://wa.me/+6287896653570"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="hover:text-white transition">
+
+                        📱 +6287896653570
+
+                    </a>
+
+                </li>
+                
+
+                <li>
+
+                    <a href="https://instagram.com/REPLACE-INSTAGRAM"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="hover:text-white transition">
+
+                        📸 Instagram
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER BOTTOM -->
+
+    <div class="border-t border-blue-700 mt-14 pt-8">
+
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+
+            <div class="text-blue-100 text-sm">
+
+                © {% now "Y" %} Litera Publishing.
+                All Rights Reserved.
+
+            </div>
+
+            <div class="text-blue-200 text-sm text-center md:text-right">
+
+                Operated under PT Litera Integra Nusantara
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</footer>
+
+    
+</body>
+
+</html>

@@ -1,0 +1,371 @@
+{% extends 'recruiter/base.html' %}
+
+{% block title %}
+Create Position
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="flex items-start justify-between mb-10">
+
+    <div>
+
+        <h1 class="text-5xl font-bold text-gray-900 mb-4">
+
+            Create Position
+
+        </h1>
+
+        <p class="text-gray-500 text-xl">
+
+            Create new recruitment vacancy for Litera Publishing
+
+        </p>
+
+    </div>
+
+    <a href="/recruiter/positions/"
+       class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-4 rounded-2xl font-semibold transition">
+
+        ← Back Positions
+
+    </a>
+
+</div>
+
+<!-- FORM -->
+
+<form method="POST"
+      class="bg-white rounded-[32px] shadow-xl border border-gray-100 overflow-hidden">
+
+    {% csrf_token %}
+
+    <!-- FORM HEADER -->
+
+    <div class="bg-gradient-to-r from-[#163B9F] to-[#0A2E8A] px-10 py-8">
+
+        <h2 class="text-3xl font-bold text-white">
+
+            Position Information
+
+        </h2>
+
+        <p class="text-blue-100 mt-2">
+
+            Configure recruitment vacancy details
+
+        </p>
+
+    </div>
+
+    <!-- FORM BODY -->
+
+    <div class="p-10 space-y-10">
+
+        <!-- POSITION TITLE -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-gray-800 mb-3">
+
+                Position Title
+
+            </label>
+
+            <input
+                type="text"
+                name="title"
+                id="title"
+                required
+                class="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 text-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#163B9F] focus:border-transparent transition"
+                placeholder="Example: Journal Manager"
+            >
+
+            <p class="text-sm text-gray-500 mt-2">
+
+                Example: Journal Manager, Editorial Assistant, OJS Specialist
+
+            </p>
+
+        </div>
+
+        <!-- POSITION SLUG -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-gray-800 mb-3">
+
+                Position Slug
+
+            </label>
+
+            <input
+                type="text"
+                name="slug"
+                id="slug"
+                class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 text-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#163B9F] focus:border-transparent transition"
+                placeholder="journal-manager"
+            >
+
+            <p class="text-sm text-gray-500 mt-2">
+
+                Auto generated from title if left empty
+
+            </p>
+
+        </div>
+
+        <!-- POSITION TYPE -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-gray-800 mb-3">
+
+                Position Type
+
+            </label>
+
+            <select
+                name="position_type"
+                required
+                class="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 text-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#163B9F] focus:border-transparent transition"
+            >
+
+                <option value="">
+
+                    Select Position Type
+
+                </option>
+
+                <option value="project">
+
+                    By Project
+
+                </option>
+
+                <option value="sharing">
+
+                    Revenue Sharing
+
+                </option>
+
+            </select>
+
+            <p class="text-sm text-gray-500 mt-2">
+
+                Choose recruitment collaboration scheme
+
+            </p>
+
+        </div>
+
+        <!-- POSITION DESCRIPTION -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-gray-800 mb-3">
+
+                Position Description
+
+            </label>
+
+            <textarea
+                name="description"
+                rows="6"
+                required
+                class="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 text-lg shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#163B9F] focus:border-transparent transition"
+                placeholder="Write detailed position description..."
+            ></textarea>
+
+            <p class="text-sm text-gray-500 mt-2">
+
+                Explain role responsibilities and recruitment overview
+
+            </p>
+
+        </div>
+
+        <!-- FEE SCHEME -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-gray-800 mb-3">
+
+                Fee Scheme
+
+            </label>
+
+            <textarea
+                name="fee_scheme"
+                rows="4"
+                class="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 text-lg shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#163B9F] focus:border-transparent transition"
+                placeholder="Example:
+- Revenue sharing 60:40
+- Fixed payment per project
+- Monthly operational incentive"
+            ></textarea>
+
+            <p class="text-sm text-gray-500 mt-2">
+
+                Explain compensation, operational incentives, or collaboration scheme
+
+            </p>
+
+        </div>
+
+        <!-- REQUIREMENTS -->
+
+        <div>
+
+            <label class="block text-lg font-semibold text-gray-800 mb-3">
+
+                Candidate Requirements
+
+            </label>
+
+            <textarea
+                name="requirements"
+                rows="6"
+                class="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 text-lg shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#163B9F] focus:border-transparent transition"
+                placeholder="Example:
+• Understand OJS workflow
+• Able to communicate professionally
+• Familiar with scientific publication
+• Responsible and deadline-oriented"
+            ></textarea>
+
+            <p class="text-sm text-gray-500 mt-2">
+
+                Write qualifications, skills, and experience requirements for applicants
+
+            </p>
+
+        </div>
+        
+
+        <!-- ACTIVE STATUS -->
+
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- PUBLISH POSITION -->
+
+            <div class="bg-gray-50 border border-gray-100 rounded-3xl p-8">
+
+                <label class="flex items-start gap-5 cursor-pointer">
+
+                    <input
+                        type="checkbox"
+                        name="is_active"
+                        {% if position.is_active %}checked{% endif %}
+                        class="mt-1 w-6 h-6 rounded text-[#163B9F] focus:ring-[#163B9F]"
+                    >
+
+                    <div>
+
+                        <h3 class="text-xl font-semibold text-gray-800">
+
+                            Publish Position
+
+                        </h3>
+
+                        <p class="text-gray-500 mt-1">
+
+                            Show this position on the public recruitment page.
+
+                        </p>
+
+                    </div>
+
+                </label>
+
+            </div>
+
+    <!-- RECRUITMENT OPEN -->
+
+    <div class="bg-gray-50 border border-gray-100 rounded-3xl p-8">
+
+        <label class="flex items-start gap-5 cursor-pointer">
+
+            <input
+                type="checkbox"
+                name="recruitment_open"
+                {% if position.recruitment_open %}checked{% endif %}
+                class="mt-1 w-6 h-6 rounded text-green-600 focus:ring-green-600"
+            >
+
+            <div>
+
+                <h3 class="text-xl font-semibold text-gray-800">
+
+                    Recruitment Open
+
+                </h3>
+
+                <p class="text-gray-500 mt-1">
+
+                    Allow candidates to submit applications for this position.
+
+                </p>
+
+            </div>
+
+        </label>
+
+    </div>
+
+</div>
+        
+
+    </div>
+
+    <!-- FORM FOOTER -->
+
+    <div class="bg-gray-50 border-t border-gray-100 px-10 py-8 flex items-center gap-5">
+
+        <button
+            type="submit"
+            class="bg-[#163B9F] hover:bg-[#0A2E8A] text-white px-10 py-4 rounded-2xl text-lg font-semibold shadow-lg transition"
+        >
+
+            Save Position
+
+        </button>
+
+        <a href="/recruiter/positions/"
+           class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-10 py-4 rounded-2xl text-lg font-semibold transition">
+
+            Cancel
+
+        </a>
+
+    </div>    
+
+</form>
+
+
+
+<!-- AUTO GENERATE SLUG -->
+
+<script>
+
+const titleInput = document.getElementById('title');
+
+const slugInput = document.getElementById('slug');
+
+titleInput.addEventListener('keyup', function() {
+
+    const slug = titleInput.value
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+
+    slugInput.value = slug;
+
+});
+
+</script>
+
+{% endblock %}
+

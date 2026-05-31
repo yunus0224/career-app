@@ -1,0 +1,560 @@
+{% extends 'candidate/base.html' %}
+
+{% block title %}
+Application Detail
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto">
+
+    <!-- PAGE HEADER -->
+
+    <div class="flex justify-between items-center mb-10">
+
+        <div>
+
+            <h1 class="text-5xl font-bold text-gray-900">
+
+                Application Detail
+
+            </h1>
+
+            <p class="text-gray-500 mt-3 text-lg">
+
+                Monitor your recruitment progress and application status.
+
+            </p>
+
+        </div>
+
+        <a href="{% url 'my_applications' %}"
+           class="bg-[#163B9F] text-white px-6 py-4 rounded-2xl hover:bg-[#0D2E82] transition">
+
+            ← Back to Applications
+
+        </a>
+
+    </div>
+
+    <!-- APPLICATION SUMMARY -->
+
+    <div class="bg-white rounded-3xl shadow-lg p-10 mb-8">
+
+        <div class="flex justify-between items-start">
+
+            <div>
+
+                <h2 class="text-4xl font-bold text-gray-900">
+
+                    {{ application.position.title }}
+
+                </h2>
+
+                <p class="text-[#163B9F] text-lg mt-2">
+
+                    {{ application.assigned_journal|default:"Waiting Journal Assignment" }}
+
+                </p>
+
+                <p class="text-gray-500 mt-4">
+
+                    Applied on
+                    {{ application.created_at|date:"d F Y H:i" }}
+
+                </p>
+
+            </div>
+
+            <!-- STATUS BADGE -->
+
+            <div>
+
+                {% if application.status == 'accepted' %}
+
+                <span class="bg-green-100 text-green-700 px-6 py-3 rounded-full font-bold">
+
+                    ✓ ACCEPTED
+
+                </span>
+
+                {% elif application.status == 'rejected' %}
+
+                <span class="bg-red-100 text-red-700 px-6 py-3 rounded-full font-bold">
+
+                    ✕ REJECTED
+
+                </span>
+
+                {% elif application.status == 'interview' %}
+
+                <span class="bg-orange-100 text-orange-700 px-6 py-3 rounded-full font-bold">
+
+                    ⏰ INTERVIEW
+
+                </span>
+
+                {% elif application.status == 'shortlisted' %}
+
+                <span class="bg-blue-100 text-blue-700 px-6 py-3 rounded-full font-bold">
+
+                    ★ SHORTLISTED
+
+                </span>
+
+                {% else %}
+
+                <span class="bg-gray-100 text-gray-700 px-6 py-3 rounded-full font-bold">
+
+                    UNDER REVIEW
+
+                </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- APPLICATION INFO -->
+
+        <div class="grid md:grid-cols-4 gap-8 mt-10">
+
+            <div>
+
+                <p class="text-gray-500 text-sm uppercase">
+
+                    Application ID
+
+                </p>
+
+                <p class="font-semibold text-xl">
+
+                    #{{ application.id }}
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <p class="text-gray-500 text-sm uppercase">
+
+                    Position Type
+
+                </p>
+
+                <p class="font-semibold text-xl">
+
+                    {{ application.position.get_position_type_display }}
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <p class="text-gray-500 text-sm uppercase">
+
+                    OJS Skill
+
+                </p>
+
+                <p class="font-semibold text-xl">
+
+                    {{ application.candidate.get_ojs_skill_display }}
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <p class="text-gray-500 text-sm uppercase">
+
+                    Candidate Status
+
+                </p>
+
+                <p class="font-semibold text-xl">
+
+                    {{ application.candidate.get_status_display }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RECRUITMENT TIMELINE -->
+
+    <div class="bg-white rounded-3xl shadow-lg p-10 mb-8">
+
+        <h3 class="text-3xl font-bold mb-8">
+
+            Recruitment Timeline
+
+        </h3>
+
+        <div class="space-y-8">
+
+            <div class="flex items-start gap-5">
+
+                <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center">
+
+                    ✓
+
+                </div>
+
+                <div>
+
+                    <h4 class="font-bold text-xl">
+
+                        Application Submitted
+
+                    </h4>
+
+                    <p class="text-gray-500">
+
+                        Your application has been successfully submitted.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="flex items-start gap-5">
+
+                <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center">
+
+                    ✓
+
+                </div>
+
+                <div>
+
+                    <h4 class="font-bold text-xl">
+
+                        Under Review
+
+                    </h4>
+
+                    <p class="text-gray-500">
+
+                        Recruitment team is reviewing your application.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% if application.status != 'pending' %}
+
+            <div class="flex items-start gap-5">
+
+                <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center">
+
+                    ✓
+
+                </div>
+
+                <div>
+
+                    <h4 class="font-bold text-xl">
+
+                        Screening Completed
+
+                    </h4>
+
+                    <p class="text-gray-500">
+
+                        Initial screening process completed.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            {% if application.status == 'interview' or application.status == 'accepted' %}
+
+            <div class="flex items-start gap-5">
+
+                <div class="w-12 h-12 rounded-full bg-orange-500 text-white flex items-center justify-center">
+
+                    ⏰
+
+                </div>
+
+                <div>
+
+                    <h4 class="font-bold text-xl">
+
+                        Interview Session
+
+                    </h4>
+
+                    <p class="text-gray-500">
+
+                        Interview stage completed or scheduled.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            {% if application.status == 'accepted' %}
+
+            <div class="flex items-start gap-5">
+
+                <div class="w-12 h-12 rounded-full bg-green-600 text-white flex items-center justify-center">
+
+                    ✓
+
+                </div>
+
+                <div>
+
+                    <h4 class="font-bold text-xl text-green-700">
+
+                        Accepted
+
+                    </h4>
+
+                    <p class="text-gray-500">
+
+                        Congratulations! You have been accepted.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            {% if application.status == 'rejected' %}
+
+            <div class="flex items-start gap-5">
+
+                <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center">
+
+                    ✕
+
+                </div>
+
+                <div>
+
+                    <h4 class="font-bold text-xl text-red-700">
+
+                        Rejected
+
+                    </h4>
+
+                    <p class="text-gray-500">
+
+                        Your application was not selected.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- RECRUITMENT INFORMATION -->
+
+    <div class="bg-white rounded-3xl shadow-lg p-10 mb-8">
+
+        <h3 class="text-3xl font-bold mb-8">
+
+            Recruitment Information
+
+        </h3>
+
+        <div class="grid md:grid-cols-2 gap-8">
+
+            <div>
+
+                <p class="text-gray-500">
+
+                    Assigned Journal
+
+                </p>
+
+                <p class="font-semibold text-xl">
+
+                    {{ application.assigned_journal|default:"Not Assigned Yet" }}
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <p class="text-gray-500">
+
+                    Interviewer
+
+                </p>
+
+                <p class="font-semibold text-xl">
+
+                    {{ application.interviewer|default:"Not Assigned Yet" }}
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <p class="text-gray-500">
+
+                    Interview Date
+
+                </p>
+
+                <p class="font-semibold text-xl">
+
+                    {{ application.interview_date|default:"-" }}
+
+                </p>
+
+            </div>
+
+            <div>
+
+                <p class="text-gray-500">
+
+                    Interview Time
+
+                </p>
+
+                <p class="font-semibold text-xl">
+
+                    {{ application.interview_time|default:"-" }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CANDIDATE PROFILE -->
+
+    <div class="bg-white rounded-3xl shadow-lg p-10 mb-8">
+
+        <h3 class="text-3xl font-bold mb-8">
+
+            Candidate Profile
+
+        </h3>
+
+        <div class="grid md:grid-cols-2 gap-8">
+
+            <div>
+                <p class="text-gray-500">Full Name</p>
+                <p class="font-semibold text-xl">
+                    {{ application.candidate.first_name }}
+                    {{ application.candidate.last_name }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Institution</p>
+                <p class="font-semibold text-xl">
+                    {{ application.candidate.institution }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Study Program</p>
+                <p class="font-semibold text-xl">
+                    {{ application.candidate.study_program }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Scientific Field</p>
+                <p class="font-semibold text-xl">
+                    {{ application.candidate.scientific_field }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">Occupation</p>
+                <p class="font-semibold text-xl">
+                    {{ application.candidate.occupation }}
+                </p>
+            </div>
+
+            <div>
+                <p class="text-gray-500">City</p>
+                <p class="font-semibold text-xl">
+                    {{ application.candidate.city }}
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DOCUMENTS -->
+
+    <div class="bg-white rounded-3xl shadow-lg p-10">
+
+        <h3 class="text-3xl font-bold mb-8">
+
+            Submitted Documents
+
+        </h3>
+
+        <div class="flex flex-wrap gap-4">
+
+            {% if application.candidate.cv %}
+
+            <a href="{{ application.candidate.cv.url }}"
+               target="_blank"
+               class="bg-[#163B9F] text-white px-6 py-4 rounded-2xl">
+
+                View CV
+
+            </a>
+
+            {% endif %}
+
+            {% if application.candidate.portfolio %}
+
+            <a href="{{ application.candidate.portfolio.url }}"
+               target="_blank"
+               class="bg-green-600 text-white px-6 py-4 rounded-2xl">
+
+                View Portfolio
+
+            </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
