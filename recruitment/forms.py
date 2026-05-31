@@ -196,6 +196,16 @@ class JournalManagerRegistrationForm(CandidateRegistrationForm):
 
 class CandidateUpdateForm(forms.ModelForm):
 
+    email = forms.EmailField( 
+        required=True, 
+        widget=forms.EmailInput( 
+            attrs={ 
+                'class': 'w-full p-4 rounded-xl border', 
+                'placeholder': 'Email Address' 
+                } 
+            ) 
+        )
+
     class Meta:
 
         model = CandidateProfile
@@ -203,6 +213,7 @@ class CandidateUpdateForm(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
+            'email',
             'phone',
             'city',
             'gender',

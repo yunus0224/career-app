@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.shortcuts import (
     render,
     redirect,
@@ -56,6 +57,11 @@ from recruitment.forms import (
 @staff_member_required
 def recruiter_dashboard(request):
 
+    admin_redirect = redirect_admin(request)
+
+    if admin_redirect:
+        return admin_redirect
+    
     # RECENT APPLICATIONS
 
     applications = Application.objects.select_related(
@@ -157,6 +163,11 @@ def recruiter_dashboard(request):
 @staff_member_required
 def recruiter_positions(request):
 
+    admin_redirect = redirect_admin(request)
+
+    if admin_redirect:
+        return admin_redirect
+
     positions = Position.objects.all().order_by(
         '-created_at'
     )
@@ -257,6 +268,11 @@ def recruiter_delete_position(request, id):
 @staff_member_required
 def recruiter_candidates(request):
 
+    admin_redirect = redirect_admin(request)
+
+    if admin_redirect:
+        return admin_redirect
+
     applications = Application.objects.select_related(
         'candidate',
         'position'
@@ -311,6 +327,11 @@ def recruiter_candidates(request):
 
 @staff_member_required
 def recruiter_applications(request):
+
+    admin_redirect = redirect_admin(request)
+
+    if admin_redirect:
+        return admin_redirect
 
     applications = Application.objects.select_related(
         'candidate',
@@ -394,6 +415,14 @@ def recruiter_applications(request):
             ).count(),
         }
     )
+
+
+def redirect_admin(request):
+
+    if request.user.is_superuser:
+        return redirect('/admin/')
+
+    return None
 
 
 def export_applications_excel(request):

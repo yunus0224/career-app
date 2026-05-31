@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -142,3 +143,12 @@ EMAIL_HOST_USER = 'literaintegranusantara@gmail.com'
 EMAIL_HOST_PASSWORD = 'roohghoqefclrxvv'
 
 DEFAULT_FROM_EMAIL = 'Litera Publishing <literaintegranusantara@gmail.com>'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Litera Career Hub",
+    "site_header": "Litera Publishing",
+    "site_brand": "Career ATS",
+    "site_logo": "images/logo.png",
+    "welcome_sign": "Welcome to Litera Career Hub",
+    "copyright": "Litera Publishing",
+}

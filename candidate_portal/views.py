@@ -17,6 +17,7 @@ from recruitment.models import (
     Application,
     CandidateProfile
 )
+
 from recruitment.forms import CandidateUpdateForm
 
 
@@ -37,11 +38,20 @@ def login_view(request):
 
             login(request, user)
 
+            # Super Admin
+            if user.is_superuser:
+                return redirect('/admin/')
+
+            # Recruiter
+            if user.is_staff:
+                return redirect('/recruiter/dashboard/')
+
+            # Candidate
             return redirect('/dashboard/')
 
         return render(
             request,
-            'login.html',
+            'public/login.html',
             {
                 'error': 'Invalid username or password'
             }
@@ -62,6 +72,14 @@ def logout_view(request):
 
 @login_required
 def dashboard(request):
+
+    # Super Admin
+    if request.user.is_superuser:
+        return redirect('/admin/')
+
+    # Recruiter
+    if request.user.is_staff:
+        return redirect('/recruiter/dashboard/')
 
     profile = CandidateProfile.objects.get(
         user=request.user
@@ -106,6 +124,9 @@ def dashboard(request):
 @login_required
 def edit_profile(request):
 
+    if request.user.is_staff:
+        return redirect('/recruiter/dashboard/')
+
     profile = request.user.candidateprofile
 
     if request.method == 'POST':
@@ -118,6 +139,9 @@ def edit_profile(request):
 
         if form.is_valid():
 
+            request.user.email = form.cleaned_data['email']
+            request.user.save()
+
             form.save()
 
             return redirect('/dashboard/')
@@ -125,7 +149,10 @@ def edit_profile(request):
     else:
 
         form = CandidateUpdateForm(
-            instance=profile
+            instance=profile,
+            initial={
+                'email': request.user.email
+            }
         )
 
     return render(
@@ -135,6 +162,7 @@ def edit_profile(request):
             'form': form
         }
     )
+
 
 @login_required
 def security_settings(request):
@@ -161,6 +189,9 @@ def security_settings(request):
                 user
             )
 
+            if user.is_staff:
+                return redirect('/recruiter/dashboard/')
+
             return redirect('/dashboard/')
 
     else:
@@ -183,8 +214,12 @@ def security_settings(request):
         }
     )
 
+
 @login_required
 def application_detail(request, id):
+
+    if request.user.is_staff:
+        return redirect('/recruiter/dashboard/')
 
     application = Application.objects.get(
         id=id,
